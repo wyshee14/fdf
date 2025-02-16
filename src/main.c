@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/14 23:02:15 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/16 16:07:06 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,28 @@ int check_file_extension(char *filename)
 	return(0);
 }
 
+void	find_width(char *line, int *fd, t_map *map)
+{
+	char **width_line;
+	int width;
+
+	width_line = ft_split(line, ' ');
+	width = 0;
+	while(width_line[width] != NULL)
+		width++;
+	if (map->width == 0)
+		map->width = width;
+	else if (map->width != width)
+	{
+		error_and_exit("Error: Inconsistent row lengths in map");
+		close(*fd);
+		exit(1);
+	}
+}
+
 void	find_map_height(char **av, t_map *map)
 {
 	int height;
-	// int width;
 	int fd;
 	char *line;
 
@@ -47,25 +65,22 @@ void	find_map_height(char **av, t_map *map)
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		error_and_exit("Failed to open file\n");
-	printf("fd: %d\n", fd);
+	// printf("fd: %d\n", fd);
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
 		height++;
-		printf("line: %s", line);
-		while (line != NULL)
-		{
-			char **width_line = ft_split(line, ' ');
-			for (int i = 0; width_line != NULL; i++)
-				printf("i: %d", i);
-		}
+		//printf("line: %s", line);
+		find_width(line, &fd, map);
 		free(line);
 		line = get_next_line(fd);
+		//printf("line2: %s\n", line);
 	}
 	free(line);
-	printf("height: %d\n", height);
+	// printf("height: %d\n", height);
 	map->height = height;
-	printf("height: %d\n", map->height);
+	// printf("height: %d\n", map->height);
+	// printf("width: %d\n", map->width);
 	close(fd);
 }
 
@@ -75,6 +90,7 @@ void parse_maps(char **av, t_map *map)
 	if (check_file_extension(av[1]) == 0)
 		error_and_exit("Incorrect file extension\n");
 	find_map_height(av, map);
+	// find_map_width(av, map);
 }
 
 void init_data(t_map *map)

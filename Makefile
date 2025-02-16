@@ -49,7 +49,8 @@ $(NAME) : $(OBJ_SRC)
 
 clean:
 	rm -rf $(OBJ_SRC)
-	@make -C $(LIBFT_DIR) $(MLX_DIR) clean
+	@make -C $(LIBFT_DIR) clean
+	@make -C $(MLX_DIR) clean
 
 fclean : clean
 	rm -f $(NAME)
