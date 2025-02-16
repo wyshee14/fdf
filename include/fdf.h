@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/14 22:18:54 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/16 22:21:43 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,11 @@ typedef struct s_data {
 }				t_data;
 
 typedef struct s_map {
-	int height;
-	int width;
+	int row;
+	int column;
+	int **arr_2d;
+	int z;
+	int color;
 }				t_map;
 
 typedef struct s_vars {

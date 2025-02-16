@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:46:33 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/14 20:10:00 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/16 17:01:41 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,24 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-// int draw_line(t_vars *vars, int beginX, int beginY, int endX, int endY, int color)
-// {
-// 	double deltaX = endX - beginX; // 10
-// 	double deltaY = endY - beginY; // 0
-// 	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
-// 	//  pixels = sqrt((10 * 10) + (0 * 0)) = sqrt(100) = 10
-// 	deltaX /= pixels; // 1
-// 	deltaY /= pixels; // 0
-// 	double pixelX = beginX;
-// 	double pixelY = beginY;
-// 	while (pixels)
-// 	{
-// 		mlx_pixel_put(mlx, win, pixelX, pixelY, color);
-// 		pixelX += deltaX;
-// 		pixelY += deltaY;
-// 		--pixels;
-// 	}
-// }
+void draw_line(t_data *img, int beginX, int beginY, int endX, int endY, int color)
+{
+	double deltaX = endX - beginX; // 10
+	double deltaY = endY - beginY; // 0
+	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
+	//  pixels = sqrt((10 * 10) + (0 * 0)) = sqrt(100) = 10
+	deltaX /= pixels; // 1
+	deltaY /= pixels; // 0
+	double pixelX = beginX;
+	double pixelY = beginY;
+	while (pixels)
+	{
+		my_mlx_pixel_put(img, pixelX, pixelY, color);
+		pixelX += deltaX;
+		pixelY += deltaY;
+		--pixels;
+	}
+}
 
 void draw_circle(t_data *data, int x, int y, int radius, int color) {
     int i, j;
@@ -141,39 +141,39 @@ int mouse_hook(int keycode, t_vars *vars)
 	return (0);
 }
 
-// int main(void)
-// {
-// 	// void	*mlx;
-// 	// void *mlx_win;
-// 	// t_data	img;
-// 	t_vars	vars;
+int main(void)
+{
+	// void	*mlx;
+	// void *mlx_win;
+	t_data	img;
+	t_vars	vars;
 
-// 	vars.mlx = mlx_init();
-// 	if (!vars.mlx)
-// 	{
-// 		printf("Failed to initialize Minilibx\n");
-// 		return (1);
-// 	}
-// 	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Welcome to FDF");
-// 	if (!vars.win)
-// 	{
-// 		printf("Failed to create\n");
-// 		return (1);
-// 	}
-// 	// draw_line(&vars, 10, 10, 20, 10, 0xFFFFFF); // This should create a white horizontal line about 10 pixels long.
-// 	// img.img = mlx_new_image(vars.mlx, 1920, 1080);
-// 	// img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-// 	// draw_square(&img, 50, 50, 100, 0xe0c887);
-// 	// draw_circle(&img, 100, 100, 50, 0x00FF00);
-// 	// draw_square_gradient(&img, 50, 50, 1000, 0x0000FF, 0xFF0000);
-// 	// my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-// 	// mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-// 	//mlx_key_hook(vars.win, key_hook, &vars);
-// 	// mlx_mouse_hook(vars.win, close_window, &vars);
-// 	mlx_hook(vars.win, 17, 0, close_window, &vars);
-// 	mlx_loop(vars.mlx);
-// 	return(0);
-// }
+	vars.mlx = mlx_init();
+	if (!vars.mlx)
+	{
+		printf("Failed to initialize Minilibx\n");
+		return (1);
+	}
+	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Welcome to FDF");
+	if (!vars.win)
+	{
+		printf("Failed to create\n");
+		return (1);
+	}
+	img.img = mlx_new_image(vars.mlx, 1920, 1080);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	// draw_square(&img, 50, 50, 100, 0xe0c887);
+	// draw_circle(&img, 100, 100, 50, 0x00FF00);
+	draw_square_gradient(&img, 50, 50, 1000, 0x0000FF, 0xFF0000);
+	// draw_line(&img, 10, 0, 200, 100, 0xFFFFFF); // This should create a white horizontal line about 10 pixels long.
+	// my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
+	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+	//mlx_key_hook(vars.win, key_hook, &vars);
+	// mlx_mouse_hook(vars.win, close_window, &vars);
+	mlx_hook(vars.win, 17, 0, close_window, &vars);
+	mlx_loop(vars.mlx);
+	return(0);
+}
 
 // Function: mlx_get_data_addr
 // t_img *img: A pointer to an image structure.

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/16 16:07:06 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/16 22:35:39 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,19 @@ int check_file_extension(char *filename)
 	return(0);
 }
 
-void	find_width(char *line, int *fd, t_map *map)
+void	find_column(char *line, int *fd, t_map *map)
 {
 	char **width_line;
-	int width;
+	int column;
 
 	width_line = ft_split(line, ' ');
-	width = 0;
-	while(width_line[width] != NULL)
-		width++;
-	if (map->width == 0)
-		map->width = width;
-	else if (map->width != width)
+	column = 0;
+	while(width_line[column] != NULL)
+		column++;
+	//remember to free
+	if (map->column == 0)
+		map->column = column;
+	else if (map->column != column)
 	{
 		error_and_exit("Error: Inconsistent row lengths in map");
 		close(*fd);
@@ -55,13 +56,13 @@ void	find_width(char *line, int *fd, t_map *map)
 	}
 }
 
-void	find_map_height(char **av, t_map *map)
+void	set_map_row_and_column(char **av, t_map *map)
 {
-	int height;
+	int rows;
 	int fd;
 	char *line;
 
-	height = 0;
+	rows = 0;
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		error_and_exit("Failed to open file\n");
@@ -69,28 +70,64 @@ void	find_map_height(char **av, t_map *map)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		height++;
+		rows++;
 		//printf("line: %s", line);
-		find_width(line, &fd, map);
+		find_column(line, &fd, map);
 		free(line);
 		line = get_next_line(fd);
 		//printf("line2: %s\n", line);
 	}
 	free(line);
-	// printf("height: %d\n", height);
-	map->height = height;
-	// printf("height: %d\n", map->height);
+	// printf("rows: %d\n", rows);
+	map->row = rows;
+	// printf("rows: %d\n", map->rows);
 	// printf("width: %d\n", map->width);
 	close(fd);
 }
 
-void parse_maps(char **av, t_map *map)
+void	allocate_map(t_map *map)
 {
+	int i;
 
+	map->arr_2d = (int **)malloc(map->row * sizeof(int *));
+	if (!map->arr_2d)
+		error_and_exit("Failed to allocate rows");
+	i = 0;
+	while (i < map->row)
+	{
+		map->arr_2d[i] = (int *)malloc(map->column * sizeof(int));
+		if (!map->arr_2d[i])
+			error_and_exit("Failed to allocate columns");
+		i++;
+	}
+}
+
+void set_z(char **av, t_map *map)
+{
+	int fd;
+	//int i;
+	char *line;
+
+	fd = open(av[1], O_RDONLY);
+	if (fd < 0)
+		error_and_exit("Failed to open file\n");
+	//i = 0;
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		map->arr_2d[map->row][map->column].z;
+		free(line);
+		line = get_next_line(fd);
+	}
+}
+
+void	parse_maps(char **av, t_map *map)
+{
 	if (check_file_extension(av[1]) == 0)
 		error_and_exit("Incorrect file extension\n");
-	find_map_height(av, map);
-	// find_map_width(av, map);
+	set_map_row_and_column(av, map);
+	allocate_map(map);
+	set_z(av, map);
 }
 
 void init_data(t_map *map)
