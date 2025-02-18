@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/16 22:21:43 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/18 21:02:01 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 // Color combination macro
 #define RGB(r, g, b) ((r << 16) | (g << 8) | b)
 
+// Color
+#define DEFAULT_COLOR 0xFFFFFF
+
 typedef struct s_data {
 	void	*img;
 	char	*addr;
@@ -39,10 +42,15 @@ typedef struct s_data {
 typedef struct s_map {
 	int row;
 	int column;
-	int **arr_2d;
+	// int **arr_2d;
+}				t_map;
+
+typedef struct s_point{
+	int x;
+	int y;
 	int z;
 	int color;
-}				t_map;
+}				t_point;
 
 typedef struct s_vars {
 	void	*mlx;

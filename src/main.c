@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/16 22:35:39 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/18 22:09:49 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,24 +85,75 @@ void	set_map_row_and_column(char **av, t_map *map)
 	close(fd);
 }
 
-void	allocate_map(t_map *map)
+// use calloc to assign memory and initialized it to 0
+void	allocate_map(t_map *map, t_point ***arr)
 {
 	int i;
 
-	map->arr_2d = (int **)malloc(map->row * sizeof(int *));
-	if (!map->arr_2d)
+	printf("Malloc...\n");
+	printf("row: %d, column: %d\n", map->row, map->column);
+	printf("ptr_alloc_map: %p\n", *arr);
+	*arr = ft_calloc(map->row, sizeof(t_point *));
+	printf("ptr_alloc_map2: %p\n", *arr);
+	if (!*arr)
 		error_and_exit("Failed to allocate rows");
 	i = 0;
 	while (i < map->row)
 	{
-		map->arr_2d[i] = (int *)malloc(map->column * sizeof(int));
-		if (!map->arr_2d[i])
+		(*arr)[i] = ft_calloc(map->column, sizeof(t_point));
+		if (!(*arr)[i])
 			error_and_exit("Failed to allocate columns");
 		i++;
 	}
 }
 
-void set_z(char **av, t_map *map)
+//convert string to integer (base 16 to 10)
+int ft_atoi_base(const char *str, int base)
+{
+	int i = 0;
+	int sign = 1;
+	int res = 0;
+	int c;
+
+	if(str[i] == '\0' || base < 2 || base > 16)
+		return(0);
+	if(str[i] == '-')
+		i++;
+	while (str[i])
+	{
+		if(str[i] >= '0' && str[i] <= '9')
+			c = str[i] - '0';
+		else if (str[i] >= 'a' && str[i] <= 'f')
+			c = str[i] - 'a' + 10;
+		else if (str[i] >= 'A' && str[i] <= 'F')
+			c = str[i] - 'A' + 10;
+		res = res * base + c;
+		i++;
+	}
+	return (res * sign);
+}
+
+int get_color(char *column_line)
+{
+	int i;
+
+	i = 0;
+	while (column_line[i])
+	{
+		if(column_line[i] == ',')
+		{
+			char **color_arr = ft_split(column_line, ',');
+			for(int i = 0; color_arr[i] != NULL; i++)
+				printf("color: %s\n", color_arr[i]);
+			int color = ft_atoi_base(color_arr[1], 16);
+			return(color);
+		}
+		i++;
+	}
+	return(DEFAULT_COLOR);
+}
+
+void set_z_arr(char **av, t_map *map, t_point ***arr)
 {
 	int fd;
 	//int i;
@@ -112,22 +163,49 @@ void set_z(char **av, t_map *map)
 	if (fd < 0)
 		error_and_exit("Failed to open file\n");
 	//i = 0;
+	printf("ptr_set_z_arr: %p\n", *arr);
+	allocate_map(map, arr);
+	printf("ptr_post_alloc: %p\n", *arr);
+	// ft_calloc(&arr, 0, sizeof(t_point));
+	// for (int i = 0; i < map->row; i++)
+    // {
+	// 	// printf("i: %d\n", i);
+    //     for (int j = 0; j < map->column; j++)
+    //     {
+    //         // printf("j: %d\n", j);
+	// 		printf("%d ", (*arr)[i][j].x);
+    //     }
+    //     printf("\n");
+    // }
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		map->arr_2d[map->row][map->column].z;
+		char **column_line = ft_split(line, ' ');
+		int width = 0;
+		while(column_line[width])
+		{
+			(**arr)->z = ft_atoi(column_line[width]);
+			(**arr)->color = get_color(column_line[width]);
+			//printf("%d ", (**arr)->z);
+			width++;
+		}
+		//arr[map->row][map->column];
 		free(line);
 		line = get_next_line(fd);
+		printf("\n");
 	}
+	close(fd);
 }
 
 void	parse_maps(char **av, t_map *map)
 {
+	t_point **arr;
+
 	if (check_file_extension(av[1]) == 0)
 		error_and_exit("Incorrect file extension\n");
 	set_map_row_and_column(av, map);
-	allocate_map(map);
-	set_z(av, map);
+	set_z_arr(av, map, &arr);
+	//set_color();
 }
 
 void init_data(t_map *map)
