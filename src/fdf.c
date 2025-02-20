@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:46:33 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/17 15:50:36 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/20 22:32:49 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void draw_square_gradient(t_data *data, int x, int y, int size, int start_color,
     }
 }
 
-int close_window(t_vars *vars)
+int close_window(t_fdf *vars)
 {
 	// (void)keycode;
 	// (void)vars;
@@ -125,7 +125,7 @@ int close_window(t_vars *vars)
 	return(0);
 }
 
-int key_hook(int keycode, t_vars *vars)
+int key_hook(int keycode, t_fdf *vars)
 {
 	(void)keycode;
 	(void)vars;
@@ -133,7 +133,7 @@ int key_hook(int keycode, t_vars *vars)
 	return (0);
 }
 
-int mouse_hook(int keycode, t_vars *vars)
+int mouse_hook(int keycode, t_fdf *vars)
 {
 	(void)keycode;
 	(void)vars;
@@ -146,7 +146,7 @@ int mouse_hook(int keycode, t_vars *vars)
 // 	// void	*mlx;
 // 	// void *mlx_win;
 // 	t_data	img;
-// 	t_vars	vars;
+// 	t_fdf	vars;
 
 // 	vars.mlx = mlx_init();
 // 	if (!vars.mlx)

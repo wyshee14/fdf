@@ -17,7 +17,7 @@ SRC_DIR = src/
 #BONUS_DIR = bonus/
 INC = -I$(INC_DIR)
 
-CC = cc -g3 -O3 -fsanitize=address
+CC = cc #-g3 -O3 -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIBFT_DIR) -Imlx_linux -O3
 
 #Source Files

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:59:06 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/20 17:05:44 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/20 22:29:30 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,12 @@ void init_point(char **av, t_map *map, t_point ***arr)
 	close(fd);
 
 	// Debugging print
-	for (int i = 0; i < map->row; i++)
-	{
-		for (int j = 0; j < map->column; j++)
-		{
-			printf("%d ", (*arr)[i][j].x);
-		}
-		printf("\n");
-	}
+	// for (int i = 0; i < map->row; i++)
+	// {
+	// 	for (int j = 0; j < map->column; j++)
+	// 	{
+	// 		printf("%d ", (*arr)[i][j].x);
+	// 	}
+	// 	printf("\n");
+	// }
 }

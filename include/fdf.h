@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/20 17:00:57 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/20 22:22:18 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 // Define STD ERROR
 #define SPLIT_ERROR "Failed to split"
 
+#define SCALE 100
+
 //error_handling.c
 void	free_2d_array(char **arr);
 void	error_and_exit(char *message);
@@ -43,7 +45,7 @@ void	error_and_exit(char *message);
 int		check_file_extension(char *filename);
 void	find_column(char *line, int *fd, t_map *map);
 void	set_map_row_and_column(char **av, t_map *map);
-void	parse_maps(char **av, t_map *map);
+t_point	**parse_maps(char **av, t_map *map);
 
 //init_point.c
 void	allocate_map(t_map *map, t_point ***arr);
