@@ -1,31 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/20 17:07:31 by wshee            ###   ########.fr       */
+/*   Created: 2025/02/20 16:54:29 by wshee             #+#    #+#             */
+/*   Updated: 2025/02/20 16:56:49 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/fdf.h"
+#ifndef STRUCT_H
+# define STRUCT_H
 
-// void init_data(t_map *map)
-// {
-// 	// map = (t_map *)malloc(sizeof(t_map));
-// 	// if(!map)
-// 	// 	error_and_exit("Failed to allocate memory for map");
-// }
+typedef struct s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
 
-int main(int ac, char **av)
-{
-	t_map map;
+typedef struct s_map {
+	int row;
+	int column;
+	// int **arr_2d;
+}				t_map;
 
-	(void)av;
-	if (ac != 2)
-		error_and_exit("Usage: ./fdf test_map.fdf\n");
-	parse_maps(av, &map);
-	//free(map);
-}
+typedef struct s_point{
+	int x;
+	int y;
+	int z;
+	int color;
+}				t_point;
+
+typedef struct s_vars {
+	void	*mlx;
+	void	*win;
+}				t_vars;
+
+#endif

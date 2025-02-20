@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/18 21:02:01 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/20 17:00:57 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
 # include "../libft/libft.h"
+# include "struct.h"
 # include <math.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -31,30 +32,22 @@
 // Color
 #define DEFAULT_COLOR 0xFFFFFF
 
-typedef struct s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
+// Define STD ERROR
+#define SPLIT_ERROR "Failed to split"
 
-typedef struct s_map {
-	int row;
-	int column;
-	// int **arr_2d;
-}				t_map;
+//error_handling.c
+void	free_2d_array(char **arr);
+void	error_and_exit(char *message);
 
-typedef struct s_point{
-	int x;
-	int y;
-	int z;
-	int color;
-}				t_point;
+//parse_map.c
+int		check_file_extension(char *filename);
+void	find_column(char *line, int *fd, t_map *map);
+void	set_map_row_and_column(char **av, t_map *map);
+void	parse_maps(char **av, t_map *map);
 
-typedef struct s_vars {
-	void	*mlx;
-	void	*win;
-}				t_vars;
+//init_point.c
+void	allocate_map(t_map *map, t_point ***arr);
+int		get_color(char *column_line);
+void	init_point(char **av, t_map *map, t_point ***arr);
 
 #endif

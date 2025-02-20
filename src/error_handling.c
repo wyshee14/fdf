@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/20 17:07:31 by wshee            ###   ########.fr       */
+/*   Created: 2025/02/19 16:28:21 by wshee             #+#    #+#             */
+/*   Updated: 2025/02/19 16:34:46 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/fdf.h"
+# include "../include/fdf.h"
 
-// void init_data(t_map *map)
-// {
-// 	// map = (t_map *)malloc(sizeof(t_map));
-// 	// if(!map)
-// 	// 	error_and_exit("Failed to allocate memory for map");
-// }
-
-int main(int ac, char **av)
+void	free_2d_array(char **arr)
 {
-	t_map map;
+	int i;
 
-	(void)av;
-	if (ac != 2)
-		error_and_exit("Usage: ./fdf test_map.fdf\n");
-	parse_maps(av, &map);
-	//free(map);
+	i = 0;
+	while(arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+void error_and_exit(char *message)
+{
+	perror(message);
+	exit(1);
 }
