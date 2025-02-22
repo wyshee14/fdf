@@ -12,65 +12,36 @@
 
 #include "../include/fdf.h"
 
-// void init_data(t_map *map)
-// {
-// 	// map = (t_map *)malloc(sizeof(t_map));
-// 	// if(!map)
-// 	// 	error_and_exit("Failed to allocate memory for map");
-// }
-
-t_fdf	*init_fdf(t_fdf *fdf, t_data *data)
+t_fdf	*init_fdf(t_fdf *fdf)
 {
-	(void)data;
+	t_img *img = NULL;
+
 	fdf = (t_fdf *)malloc(sizeof(t_fdf));
 	if (!fdf)
 		error_and_exit("Failed to allocate memory for fdf");
-	data = (t_data *)malloc(sizeof(t_data));
-	if (!data)
-		error_and_exit("Failed to allocate memory for data");
+	img = (t_img *)malloc(sizeof(t_img));
+	if (!img)
+		error_and_exit("Failed to allocate memory for img");
 	fdf->mlx = mlx_init();
 	if (!fdf->mlx)
 		printf("Failed mlx init\n");
 	fdf->win = mlx_new_window(fdf->mlx, HEIGHT, WIDTH, "FDF");
 	if (!fdf->win)
 		printf("Failed to create window\n");
-	data->img = mlx_new_image(fdf->mlx, HEIGHT, WIDTH);
-	if (!data->img)
-		printf("Failed to new image\n");
-	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
-	if (!data->addr)
-		printf("Failed to get data address\n");
-	//mlx_put_image_to_window(fdf->mlx, fdf->win, data->img, 0, 0);
+	img->img = mlx_new_image(fdf->mlx, HEIGHT, WIDTH);
+	//printf("img: %p\n", img->img);
+	if (!img->img)
+		printf("Failed to allocate new image\n");
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+	if (!img->addr)
+		printf("Failed to get img address\n");
+	fdf->img = img;
+	// draw_square(fdf->img, 5, 5, 50, 0xe0c887);
+	// mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
+	mlx_hook(fdf->win, 2, 1L<<0, press_esc, fdf);
 	mlx_hook(fdf->win, 17, 0, close_window, fdf);
-	mlx_loop(fdf->mlx);
+	// mlx_loop(fdf->mlx);
 	return(fdf);
-}
-
-void	scaling(t_point **arr, t_map *map)
-{
-	int row;
-	int column;
-
-	row = 0;
-	while (row < map->row)
-	{
-		column = 0;
-		while (column < map->column)
-		{
-			(*arr)->x *= SCALE;
-			(*arr)->y *= SCALE;
-			column++;
-		}
-		row++;
-	}
-	for (int i = 0; i < map->row; i++)
-	{
-		for (int j = 0; j < map->column; j++)
-		{
-			printf("%d ", (arr)[i][j].x);
-		}
-		printf("\n");
-	}
 }
 
 int main(int ac, char **av)
@@ -78,17 +49,19 @@ int main(int ac, char **av)
 	t_map map;
 	t_fdf *fdf;
 	t_point **arr;
-	t_data *data;
-
-	(void)av;
+	
 	fdf = NULL;
-	data = NULL;
+	arr = NULL;
 	if (ac != 2)
 		error_and_exit("Usage: ./fdf test_map.fdf\n");
 	arr = parse_maps(av, &map);
-	fdf = init_fdf(fdf, data);
-	draw_map(&map, fdf, data, arr);
+	fdf = init_fdf(fdf);
+	//printf("img2: %p\n", fdf->img->img);
+	// draw_square(fdf->img, 5, 5, 50, 0xe0c887);
+	draw_map(&map, fdf, arr);
+	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
 	// scaling(arr, &map);
 	// isometric
 	//free(map);
+	mlx_loop(fdf->mlx);
 }

@@ -68,6 +68,7 @@ int get_color(char *column_line)
 	return(DEFAULT_COLOR);
 }
 
+//this function is used to plot the point on the map
 void init_point(char **av, t_map *map, t_point ***arr)
 {
 	int fd;
@@ -90,8 +91,8 @@ void init_point(char **av, t_map *map, t_point ***arr)
 		int col = 0;
 		while (column_line[col] && col < map->column)
 		{
-			(*arr)[row][col].x = row;
-			(*arr)[row][col].y = col;
+			(*arr)[row][col].x = col;
+			(*arr)[row][col].y = row;
 			(*arr)[row][col].z = ft_atoi(column_line[col]);
 			(*arr)[row][col].color = get_color(column_line[col]);
 			col++;
@@ -104,7 +105,7 @@ void init_point(char **av, t_map *map, t_point ***arr)
 
 	close(fd);
 
-	// Debugging print
+	//Debugging print
 	// for (int i = 0; i < map->row; i++)
 	// {
 	// 	for (int j = 0; j < map->column; j++)

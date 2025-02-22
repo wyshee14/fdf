@@ -22,3 +22,14 @@ int close_window(t_fdf *fdf)
 	exit(0);
 	return(0);
 }
+
+int press_esc(int key, t_fdf *fdf)
+{
+	if(key == ESC_KEY)
+	{
+		mlx_destroy_window(fdf->mlx, fdf->win);
+		fdf->win = NULL;
+	}
+	exit(0);
+	return(0);
+}

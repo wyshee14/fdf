@@ -13,13 +13,13 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
-typedef struct s_data {
+typedef struct s_img {
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+}				t_img;
 
 typedef struct s_map {
 	int row;
@@ -36,6 +36,7 @@ typedef struct s_point{
 typedef struct s_fdf {
 	void	*mlx;
 	void	*win;
+	t_img	*img;
 	// t_point **arr;
 }				t_fdf;
 
