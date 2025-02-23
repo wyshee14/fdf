@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/21 18:01:00 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/23 17:32:44 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@
 #define SCALE 20
 
 #define ESC_KEY 65307
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 //error_handling.c
 void	free_2d_array(char **arr);

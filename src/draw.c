@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_line.c                                        :+:      :+:    :+:   */
+/*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:48:18 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/21 21:29:32 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/23 21:27:37 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
-// void isometric_rojection(t_point *point)
-// {
-// 	int iso_radian;
-
-// 	iso_radian = 0.52359877559;
-// 	point->x = (point->x - point->y) * cos(iso_radian);
-// 	point->y = (point->x + point->y) * sin(iso_radian) - point->z;
-// }
-
-t_point ft_scale(t_point point, t_map *map)
+void isometric_projection(t_point *point)
 {
+	double iso_radian;
+	double previous_x = point->x;
+	double previous_y = point->y;
+
+	iso_radian = 30 * M_PI / 180;
+	point->x = (previous_x - previous_y) * cos(iso_radian);
+	point->y = (previous_x + previous_y) * sin(iso_radian) - point->z;
+}
+
+t_point	ft_scale(t_point point, t_map *map)
+{
+	// int previous_x;
 	//(void)fdf;
 	point.x *= SCALE;
 	point.y *= SCALE;
@@ -31,9 +34,12 @@ t_point ft_scale(t_point point, t_map *map)
 	point.x -= (map->column * SCALE) / 2;
 	point.y -= (map->row * SCALE) / 2;
 	//convert to isometric
-	//isometric_rojection(&point);
-	point.x = (point.x - point.y) * cos(0.52359877559);
-	point.y = (point.x + point.y) * sin(0.52359877559) - point.z;
+	isometric_projection(&point);
+	// previous_x = point.x;
+	// point.x = (point.x - point.y) * cos(0.52359877559);
+	// point.y = (previous_x + point.y) * sin(0.52359877559) - point.z;
+	// printf("Transformed  x: %d, y: %d, z: %d\n", point.x, point.y, point.z);
+	// printf("py: %d\n", point.y);
 	//move to centre
 	point.x += WIDTH / 2;
 	point.y += HEIGHT / 2;
