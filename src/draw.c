@@ -18,7 +18,7 @@ void isometric_projection(t_point *point)
 	double previous_x = point->x;
 	double previous_y = point->y;
 
-	iso_radian = 30 * M_PI / 180;
+	iso_radian = (30) * M_PI / 180;
 	point->x = (previous_x - previous_y) * cos(iso_radian);
 	point->y = (previous_x + previous_y) * sin(iso_radian) - point->z;
 }
@@ -26,7 +26,8 @@ void isometric_projection(t_point *point)
 t_point	ft_scale(t_point point, t_map *map)
 {
 	// int previous_x;
-	//(void)fdf;
+	
+	//printf("Ori point: x[%d], y[%d], z[%d]\n", point.x, point.y, point.z);
 	point.x *= SCALE;
 	point.y *= SCALE;
 	point.z *= SCALE;
@@ -34,9 +35,9 @@ t_point	ft_scale(t_point point, t_map *map)
 	point.x -= (map->column * SCALE) / 2;
 	point.y -= (map->row * SCALE) / 2;
 	//convert to isometric
-	printf("Before projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
+	//printf("Before projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
 	isometric_projection(&point);
-	printf("After projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
+	//printf("After projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
 	// previous_x = point.x;
 	// point.x = (point.x - point.y) * cos(0.52359877559);
 	// point.y = (previous_x + point.y) * sin(0.52359877559) - point.z;
