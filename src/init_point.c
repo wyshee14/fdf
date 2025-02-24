@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:59:06 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/20 22:29:30 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/24 21:40:49 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,15 @@ void allocate_map(t_map *map, t_point ***arr)
 {
 	int i;
 
-	printf("Malloc...\n");
 	printf("row: %d, column: %d\n", map->row, map->column);
-	printf("ptr_alloc_map: %p\n", *arr);
+	//printf("ptr_alloc_map: %p\n", *arr);
 
 	// Allocate row pointers
 	*arr = (t_point **)ft_calloc(map->row, sizeof(t_point *));
 	if (!*arr)
 		error_and_exit("Failed to allocate rows");
 
-	printf("ptr_alloc_map2: %p\n", *arr);
+	//printf("ptr_alloc_map2: %p\n", *arr);
 
 	// Allocate columns
 	for (i = 0; i < map->row; i++)
@@ -80,7 +79,7 @@ void init_point(char **av, t_map *map, t_point ***arr)
 		error_and_exit("Failed to open file\n");
 
 	allocate_map(map, arr);  // Ensure memory is allocated
-	printf("ptr_post_alloc: %p\n", *arr);
+	//printf("ptr_post_alloc: %p\n", *arr);
 
 	line = get_next_line(fd);
 	while (line != NULL && row < map->row)
@@ -110,7 +109,7 @@ void init_point(char **av, t_map *map, t_point ***arr)
 	// {
 	// 	for (int j = 0; j < map->column; j++)
 	// 	{
-	// 		printf("%d ", (*arr)[i][j].x);
+	// 		printf("%d ", (*arr)[i][j].y);
 	// 	}
 	// 	printf("\n");
 	// }

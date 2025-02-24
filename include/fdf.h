@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/23 17:32:44 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/24 22:28:12 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@
 // Define STD ERROR
 #define SPLIT_ERROR "Failed to split"
 
-#define HEIGHT 720
-#define WIDTH 720
-#define SCALE 20
+#define HEIGHT 1980
+#define WIDTH 1080
+#define SCALE 50
 
 #define ESC_KEY 65307
 

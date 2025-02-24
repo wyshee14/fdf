@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/21 21:27:15 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/24 21:27:21 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ t_fdf	*init_fdf(t_fdf *fdf)
 	fdf->img = img;
 	// draw_square(fdf->img, 5, 5, 50, 0xe0c887);
 	// mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
-	mlx_hook(fdf->win, 2, 1L<<0, press_esc, fdf);
-	mlx_hook(fdf->win, 17, 0, close_window, fdf);
 	// mlx_loop(fdf->mlx);
 	return(fdf);
 }
@@ -49,7 +47,7 @@ int main(int ac, char **av)
 	t_map map;
 	t_fdf *fdf;
 	t_point **arr;
-	
+
 	fdf = NULL;
 	arr = NULL;
 	if (ac != 2)
@@ -59,9 +57,18 @@ int main(int ac, char **av)
 	//printf("img2: %p\n", fdf->img->img);
 	// draw_square(fdf->img, 5, 5, 50, 0xe0c887);
 	draw_map(&map, fdf, arr);
+	// t_point p1;
+	// t_point p2;
+	// p1.x = 50;
+	// p1.y = 50;
+	// p2.x = -80;
+	// p2.y = 800;
+	// draw_line_bresenham(fdf->img, &p1, &p2);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
 	// scaling(arr, &map);
 	// isometric
 	//free(map);
+	mlx_hook(fdf->win, 2, 1L<<0, press_esc, fdf);
+	mlx_hook(fdf->win, 17, 0, close_window, fdf);
 	mlx_loop(fdf->mlx);
 }
