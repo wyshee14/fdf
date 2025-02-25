@@ -54,19 +54,9 @@ int main(int ac, char **av)
 		error_and_exit("Usage: ./fdf test_map.fdf\n");
 	arr = parse_maps(av, &map);
 	fdf = init_fdf(fdf);
-	//printf("img2: %p\n", fdf->img->img);
 	// draw_square(fdf->img, 5, 5, 50, 0xe0c887);
 	draw_map(&map, fdf, arr);
-	// t_point p1;
-	// t_point p2;
-	// p1.x = 50;
-	// p1.y = 50;
-	// p2.x = -80;
-	// p2.y = 800;
-	// draw_line_bresenham(fdf->img, &p1, &p2);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
-	// scaling(arr, &map);
-	// isometric
 	//free(map);
 	mlx_hook(fdf->win, 2, 1L<<0, press_esc, fdf);
 	mlx_hook(fdf->win, 17, 0, close_window, fdf);

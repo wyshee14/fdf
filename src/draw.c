@@ -24,30 +24,48 @@ void isometric_projection(t_point *point)
 	point->y = ((previous_x + point->y) * sin(iso_radian)) - point->z;
 }
 
+void	rotate_z(t_point *point)
+{
+	double rad_45 = M_PI / 4;
+	double prev_x = point->x;
+	double prev_y = point->y;
+	point->x = prev_x * cos(rad_45) - prev_y * sin(rad_45);
+	point->y = prev_x * sin(rad_45) + prev_y * cos(rad_45);
+}
+
+void	rotate_x(t_point *point)
+{
+	//double rad = atan(sqrt(2));
+	double cos_theta = 1 / sqrt(3);
+	double sin_theta = sqrt(2) / sqrt(3);
+
+	point->y = point->y * cos_theta - point->z * sin_theta;
+	point->z = point->y * sin_theta + point->z * cos_theta;
+}
+
 t_point	ft_scale(t_point point, t_map *map)
 {
-	// int previous_x;
-	(void)map;
+	// (void)map;
 
 	//printf("Ori point: x[%d], y[%d], z[%d]\n", point.x, point.y, point.z);
 	point.x *= SCALE;
 	point.y *= SCALE;
 	point.z *= SCALE;
 	//centre of the map become the new origin (0,0)
-	// point.x -= (map->column * SCALE) / 2;
-	// point.y -= (map->row * SCALE) / 2;
+	point.x -= (map->column * SCALE) / 2;
+	point.y -= (map->row * SCALE) / 2;
 	//convert to isometric
-	//printf("Before projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
-	// isometric_projection(&point);
-	//printf("After projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
-	// previous_x = point.x;
-	// point.x = (point.x - point.y) * cos(0.52359877559);
-	// point.y = (previous_x + point.y) * sin(0.52359877559) - point.z;
+	isometric_projection(&point);
 	// printf("Transformed  x: %d, y: %d, z: %d\n", point.x, point.y, point.z);
 	// printf("py: %d\n", point.y);
+	// printf("Before projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
+	// rotate_z(&point);
+	// rotate_x(&point);
+	// printf("After projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
 	//move to centre
-	// point.x += WIDTH / 2;
-	// point.y += HEIGHT / 2;
+	point.x += WIDTH / 2;
+	point.y += HEIGHT / 2;
+	// printf("[2] p1: %d\n", point.x);
 	return(point);
 }
 
@@ -75,13 +93,13 @@ void	draw_map(t_map *map, t_fdf *fdf, t_point **arr)
 		{
 			t_point p1 = ft_scale(arr[y][x], map); //project the current point
 			// printf("p1: %d\n", p1.x);
-			if(x < map->column - 1) //draw to the right until the last
+			if(x != map->column - 1) //draw to the right until the last
 			{
 				t_point p3 = ft_scale(arr[y][x + 1], map);
 				// printf("p1x: %d, p3x: %d\n", p1.x, p3.x);
 				draw_line_bresenham(fdf->img, &p1, &p3);
 			}
-			if(y < map->row - 1) //draw to downwards
+			if(y != map->row - 1) //draw to downwards
 			{
 				t_point p2 = ft_scale(arr[y + 1][x], map);
 				// printf("p1y: %d, p3y: %d\n", p1.y, p2.y);
@@ -96,141 +114,138 @@ void	draw_map(t_map *map, t_fdf *fdf, t_point **arr)
 void slope_less_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *img)
 {
 	int p;
-	int i;
+	//int i;
 	(void)end;
+	t_point current = *begin;
 
-	 i = 0;
-	 p = 2 * abs(*dy) - abs(*dx);
-	 my_mlx_pixel_put(img, begin->x, begin->y, DEFAULT_COLOR);
-	 while (i < abs(*dx))
-	 {
-		if((*dx) > 0)
-	  		begin->x += 1;
-		else
-			begin->x -= 1;
-		//printf("beginx: %d\n", begin->x);
-	  if (p < 0)
-	   p = p + 2 * abs(*dy);
-	  else
-	  {
-		if ((*dy) > 0)
-			begin->y += 1;
-		else
-			begin->y -= 1;
-		//printf("beginy: %d\n", begin->y);
-	   	p = p + 2 * abs(*dy) - 2 * abs(*dx);
-	  }
-	  my_mlx_pixel_put(img, begin->x, begin->y, DEFAULT_COLOR);
-	  i++;
-	 }
-	// int p;
-	// int x;
-	// int y;
-
-	// p = 2 * (*dy) - (*dx);
-	// x = begin->x;
-	// y = begin->y;
-	// while (x <= end->x)
-	// {
-	// 	my_mlx_pixel_put(img, x, y, begin->color);
-	// 	x++;
-	// 	if (p < 0)
-	// 		p += 2 * (*dy);
-	// 	else
-	// 	{
-	// 		p += 2 * (*dy) - 2 * (*dx);
-	// 		y++;
-	// 	}
-	// }
-}
-
-void slope_bigger_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *img)
-{
-	int p;
-	int i;
-	(void)end;
-
-	printf("[2]dx2: %d, dy2: %d\n", *dx, *dy);
-	i = 0;
-	p = 2 * abs(*dx) - abs(*dy);
-	// printf("beginx: %d, begin.y: %d\n", begin->x, begin->y);
-	my_mlx_pixel_put(img, begin->x, begin->y, DEFAULT_COLOR);
-	if (*dx == 0)
+	//i = 0;
+	p = 2 * abs(*dy) - abs(*dx);
+	if (*dy == 0)
 	{
-		int y = begin->y;
-		int end_y = end->y;
-		int step = (*dy > 0) ? 1 : -1;
-		while(y != end_y)
+		int end_x = end->x;
+		int step = (*dx > 0) ? 1 : -1;
+		while(current.x != end_x)
 		{
-			my_mlx_pixel_put(img, begin->x, y, DEFAULT_COLOR);
-			y += step;
+			current.color = get_gradient_color(&current, begin, end, dx, dy);
+			my_mlx_pixel_put(img, current.x, begin->y, current.color);
+			current.x += step;
 		}
-		my_mlx_pixel_put(img, begin->x, end_y, DEFAULT_COLOR);
+		// printf("[2]beginx: %d, beginy: %d\n", end_x, begin->y);
+		my_mlx_pixel_put(img, end_x, end->y, end->color);
 		return ;
 	}
-	while (i < abs(*dy))
+	// printf("begin: x[%d], y[%d]", begin->x, begin->y);
+	// printf("current: x[%d], y[%d]", current.x, current.y);
+	while (current.x != end->x || current.y != end->y)
 	{
+		current.color = get_gradient_color(&current, begin, end, dx, dy);
+		my_mlx_pixel_put(img, current.x, current.y, current.color);
+		if((*dx) > 0)
+		current.x += 1;
+		else
+		current.x -= 1;
+		//printf("beginx: %d\n", begin->x);
+		if (p < 0)
+		p = p + 2 * abs(*dy);
+	  	else
+	  	{
+			if ((*dy) > 0)
+			current.y += 1;
+			else
+			current.y -= 1;
+			//printf("beginy: %d\n", begin->y);
+			p = p + 2 * abs(*dy) - 2 * abs(*dx);
+		}
+		// my_mlx_pixel_put(img, current.x, current.y, DEFAULT_COLOR);
+	  	// i++;
+	 }
+	my_mlx_pixel_put(img, end->x, end->y, end->color);
+}
+
+void	slope_bigger_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *img)
+{
+	int p;
+	// int i;
+	(void)end;
+	t_point current = *begin;
+
+	// printf("[2]dx2: %d, dy2: %d\n", *dx, *dy);
+	// i = 0;
+	p = 2 * abs(*dx) - abs(*dy);
+	// printf("[1]beginx: %d, begin.y: %d\n", begin->x, begin->y);
+	if (*dx == 0)
+	{
+		int end_y = end->y;
+		int step = (*dy > 0) ? 1 : -1;
+		while(current.y != end_y)
+		{
+			current.color = get_gradient_color(&current, begin, end, dx, dy);
+			my_mlx_pixel_put(img, current.x, current.y, current.color);
+			current.y += step;
+		}
+		// printf("[2]beginx: %d, beginy: %d\n", begin->x, end_y);
+		my_mlx_pixel_put(img, end->x, end_y, end->color);
+		return ;
+	}
+	while (current.x != end->x || current.y != end->y)
+	{
+		current.color = get_gradient_color(&current, begin, end, dx, dy);
+		my_mlx_pixel_put(img, current.x, current.y, current.color);
 		if((*dy) > 0)
-			begin->y += 1;
+		current.y += 1;
 		else if ((*dy) < 0)
-			begin->y -= 1;
+		current.y -= 1;
 		// printf("beginy: %d\n", begin->y);
 		if (p < 0)
-			p = p + 2 * abs(*dx);
+		p = p + 2 * abs(*dx);
 		else
 		{
 			if ((*dx) > 0)
-				begin->x += 1;
+			current.x += 1;
 			else if ((*dx) < 0)
-				begin->x -= 1;
+			current.x -= 1;
 			// printf("beginx: %d\n", begin->x);
 			p = p + 2 * abs(*dx) - 2 * abs(*dy);
 		}
+		//my_mlx_pixel_put(img, current.x, current.y, DEFAULT_COLOR);
 		// printf("p: %d\n", p);
-		// printf("beginx2: %d, beginy2: %d\n", begin->x, begin->y);
-		my_mlx_pixel_put(img, begin->x, begin->y, DEFAULT_COLOR);
-		i++;
+		//printf("[2]beginx: %d, beginy: %d\n", begin->x, begin->y);
+		// i++;
 	}
-	// int p;
-	// int x;
-	// int y;
-
-	// p = 2 * (*dx) - (*dy);
-	// x = begin->x;
-	// y = begin->y;
-	// while (y <= end->y)
-	// {
-	// 	my_mlx_pixel_put(img, x, y, begin->color);
-	// 	y++;
-	// 	if (p < 0)
-	// 		p += 2 * (*dx);
-	// 	else
-	// 	{
-	// 		p += 2 * (*dx) - 2 * (*dy);
-	// 		x++;
-	// 	}
-	// }
+	my_mlx_pixel_put(img, end->x, end->y, end->color);
 }
+
+
 
 void	draw_line_bresenham(t_img *img, t_point *begin, t_point *end)
 {
 	int dx;
 	int dy;
+	//int distance;
 
+	// printf("beginx: %d, begin.y: %d\n", begin->x, begin->y);
 	dx = (end->x - begin->x); // abs (returns positive number) using stdlib.h, forbidden -- need to create a new function
 	dy = (end->y - begin->y);
-	printf("[1]dx: %d, dy: %d\n", dx, dy);
+	//distance = get_max_distance(&dx, &dy);
+	// printf("[1]dx: %d, dy: %d\n", dx, dy);
 	if (abs(dx) > abs(dy))
+	{		
 		slope_less_than_one(begin, end, &dx, &dy, img); //shallow lines
+	}	
 	else
+	{
 		slope_bigger_than_one(begin, end, &dx, &dy, img); //steep lines
-
+	}
 }
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char *dst;
 
+	if (!img || !img->addr)
+		error_and_exit("Error: Invalid image pointer\n");
+	if(x < 0 || y < 0|| x >= WIDTH || y >= HEIGHT)
+		error_and_exit("Error: image drawing out of bound\n");
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }

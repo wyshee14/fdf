@@ -35,9 +35,9 @@
 // Define STD ERROR
 #define SPLIT_ERROR "Failed to split"
 
-#define HEIGHT 1980
+#define HEIGHT 1920
 #define WIDTH 1080
-#define SCALE 50
+#define SCALE 20
 
 #define ESC_KEY 65307
 
@@ -72,6 +72,9 @@ void    slope_less_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_im
 void	draw_map(t_map *map, t_fdf *fdf, t_point **arr);
 //t_point *project_point(t_point *point, t_fdf *fdf);
 
-void draw_square(t_img *img, int x, int y, int size, int color);
+//color.c
+float	fraction(float x1, float x2, float x);
+int color_gradient(t_point *begin, t_point *end, float *distance);
+int get_gradient_color(t_point *current, t_point *begin, t_point *end, int *dx, int *dy);
 
 #endif
