@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:28:46 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/19 16:36:53 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/26 14:35:46 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LIBFT_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 4096
 # endif
 
 # include <stdio.h>

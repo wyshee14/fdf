@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:48:18 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/24 22:40:17 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/26 21:48:06 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,17 @@ void	rotate_x(t_point *point)
 	point->z = point->y * sin_theta + point->z * cos_theta;
 }
 
-t_point	ft_scale(t_point point, t_map *map)
+t_point	ft_scale(t_point point, t_fdf *fdf)
 {
 	// (void)map;
 
 	//printf("Ori point: x[%d], y[%d], z[%d]\n", point.x, point.y, point.z);
-	point.x *= SCALE;
-	point.y *= SCALE;
-	point.z *= SCALE;
+	point.x *= fdf->move->scale;
+	point.y *= fdf->move->scale;
+	point.z *= fdf->move->scale;
 	//centre of the map become the new origin (0,0)
-	point.x -= (map->column * SCALE) / 2;
-	point.y -= (map->row * SCALE) / 2;
+	point.x -= (fdf->map->column * fdf->move->scale) / 2;
+	point.y -= (fdf->map->row * fdf->move->scale) / 2;
 	//convert to isometric
 	isometric_projection(&point);
 	// printf("Transformed  x: %d, y: %d, z: %d\n", point.x, point.y, point.z);
@@ -63,8 +63,8 @@ t_point	ft_scale(t_point point, t_map *map)
 	// rotate_x(&point);
 	// printf("After projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
 	//move to centre
-	point.x += WIDTH / 2;
-	point.y += HEIGHT / 2;
+	point.x += fdf->move->offset_x;
+	point.y += fdf->move->offset_y;
 	// printf("[2] p1: %d\n", point.x);
 	return(point);
 }
@@ -77,7 +77,7 @@ t_point	ft_scale(t_point point, t_map *map)
 //(fdf->bits_per_pixel / 8) -> Converts bits to bytes
 // calculates total number of bytes to clear in image buffer
 // ft_bzero sets all bytes to 0, sets entire image buffer to black
-void	draw_map(t_map *map, t_fdf *fdf, t_point **arr)
+int	draw_map(t_fdf *fdf)
 {
 	int x;
 	int y;
@@ -86,22 +86,22 @@ void	draw_map(t_map *map, t_fdf *fdf, t_point **arr)
 	//printf("Drawing...\n");
 	// printf("2 row: %d, column: %d\n", map->row, map->column);
 	y = 0;
-	while(y < map->row)
+	while(y < fdf->map->row)
 	{
 		x = 0;
-		while(x < map->column)
+		while(x < fdf->map->column)
 		{
-			t_point p1 = ft_scale(arr[y][x], map); //project the current point
+			t_point p1 = ft_scale(fdf->arr[y][x], fdf); //project the current point
 			// printf("p1: %d\n", p1.x);
-			if(x != map->column - 1) //draw to the right until the last
+			if(x != fdf->map->column - 1) //draw to the right until the last
 			{
-				t_point p3 = ft_scale(arr[y][x + 1], map);
+				t_point p3 = ft_scale(fdf->arr[y][x + 1], fdf);
 				// printf("p1x: %d, p3x: %d\n", p1.x, p3.x);
 				draw_line_bresenham(fdf->img, &p1, &p3);
 			}
-			if(y != map->row - 1) //draw to downwards
+			if(y != fdf->map->row - 1) //draw to downwards
 			{
-				t_point p2 = ft_scale(arr[y + 1][x], map);
+				t_point p2 = ft_scale(fdf->arr[y + 1][x], fdf);
 				// printf("p1y: %d, p3y: %d\n", p1.y, p2.y);
 				draw_line_bresenham(fdf->img, &p1, &p2);
 			}
@@ -109,6 +109,8 @@ void	draw_map(t_map *map, t_fdf *fdf, t_point **arr)
 		}
 		y++; //Move down to next line
 	}
+	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
+	return(0);
 }
 
 void slope_less_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *img)
@@ -229,9 +231,9 @@ void	draw_line_bresenham(t_img *img, t_point *begin, t_point *end)
 	//distance = get_max_distance(&dx, &dy);
 	// printf("[1]dx: %d, dy: %d\n", dx, dy);
 	if (abs(dx) > abs(dy))
-	{		
+	{
 		slope_less_than_one(begin, end, &dx, &dy, img); //shallow lines
-	}	
+	}
 	else
 	{
 		slope_bigger_than_one(begin, end, &dx, &dy, img); //steep lines
@@ -245,7 +247,8 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	if (!img || !img->addr)
 		error_and_exit("Error: Invalid image pointer\n");
 	if(x < 0 || y < 0|| x >= WIDTH || y >= HEIGHT)
-		error_and_exit("Error: image drawing out of bound\n");
+		return ;
+		// error_and_exit("Error: image drawing out of bound\n");
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }

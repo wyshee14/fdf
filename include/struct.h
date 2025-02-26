@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:54:29 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/21 14:03:17 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/26 20:48:14 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ typedef struct s_map {
 	int column;
 }				t_map;
 
+typedef struct s_move{
+	int mx;
+	int my;
+	int offset_x;
+	int offset_y;
+	// int step;
+	int scale;
+}				t_move;
+
 typedef struct s_point{
 	int x;
 	int y;
@@ -37,7 +46,9 @@ typedef struct s_fdf {
 	void	*mlx;
 	void	*win;
 	t_img	*img;
-	// t_point **arr;
+	t_move	*move;
+	t_map	*map;
+	t_point **arr;
 }				t_fdf;
 
 #endif

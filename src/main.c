@@ -6,36 +6,61 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/24 21:27:21 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/26 21:38:34 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
-t_fdf	*init_fdf(t_fdf *fdf)
+t_img *init_img(t_fdf *fdf)
 {
-	t_img *img = NULL;
+	t_img *img;
 
-	fdf = (t_fdf *)malloc(sizeof(t_fdf));
-	if (!fdf)
-		error_and_exit("Failed to allocate memory for fdf");
 	img = (t_img *)malloc(sizeof(t_img));
 	if (!img)
 		error_and_exit("Failed to allocate memory for img");
-	fdf->mlx = mlx_init();
-	if (!fdf->mlx)
-		printf("Failed mlx init\n");
-	fdf->win = mlx_new_window(fdf->mlx, HEIGHT, WIDTH, "FDF");
-	if (!fdf->win)
-		printf("Failed to create window\n");
-	img->img = mlx_new_image(fdf->mlx, HEIGHT, WIDTH);
+	img->img = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
 	//printf("img: %p\n", img->img);
 	if (!img->img)
 		printf("Failed to allocate new image\n");
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
 	if (!img->addr)
 		printf("Failed to get img address\n");
-	fdf->img = img;
+	return(img);
+}
+
+t_move *init_move(void)
+{
+	t_move *move;
+
+	move = ft_calloc(1, sizeof(t_move));
+	if (!move)
+		error_and_exit("Failed to allocate memory for move");
+	// move->step = 10;
+	move->offset_x = WIDTH / 2;
+	move->offset_y = HEIGHT / 2;
+	move->scale = 20;
+	//printf("offset_x: %d, step: %d\n", move->offset_x, move->step);
+	return(move);
+}
+
+t_fdf	*init_fdf(t_fdf *fdf, char **av)
+{
+	fdf = (t_fdf *)malloc(sizeof(t_fdf));
+	if (!fdf)
+		error_and_exit("Failed to allocate memory for fdf");
+	fdf->mlx = mlx_init();
+	if (!fdf->mlx)
+		printf("Failed mlx init\n");
+	fdf->win = mlx_new_window(fdf->mlx, WIDTH, HEIGHT, "FDF");
+	if (!fdf->win)
+		printf("Failed to create window\n");
+	fdf->img = init_img(fdf);
+	fdf->move = init_move();
+	fdf->map = ft_calloc(1, sizeof(t_move));
+	if (!fdf->map)
+		error_and_exit("Failed to allocate memory for map");
+	fdf->arr = parse_maps(av, fdf->map);
 	// draw_square(fdf->img, 5, 5, 50, 0xe0c887);
 	// mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
 	// mlx_loop(fdf->mlx);
@@ -44,21 +69,19 @@ t_fdf	*init_fdf(t_fdf *fdf)
 
 int main(int ac, char **av)
 {
-	t_map map;
+	//t_map map;
 	t_fdf *fdf;
-	t_point **arr;
+	// t_point **arr;
 
 	fdf = NULL;
-	arr = NULL;
+	// arr = NULL;
 	if (ac != 2)
 		error_and_exit("Usage: ./fdf test_map.fdf\n");
-	arr = parse_maps(av, &map);
-	fdf = init_fdf(fdf);
+	fdf = init_fdf(fdf, av);
 	// draw_square(fdf->img, 5, 5, 50, 0xe0c887);
-	draw_map(&map, fdf, arr);
-	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
+	draw_map(fdf);
+	// mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
+	setup_hook(fdf);
 	//free(map);
-	mlx_hook(fdf->win, 2, 1L<<0, press_esc, fdf);
-	mlx_hook(fdf->win, 17, 0, close_window, fdf);
 	mlx_loop(fdf->mlx);
 }

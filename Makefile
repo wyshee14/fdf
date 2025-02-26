@@ -18,7 +18,7 @@ SRC_DIR = src/
 INC = -I$(INC_DIR)
 
 CC = cc #-g3 -O3 -fsanitize=address
-CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIBFT_DIR) -Imlx_linux -O3
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIBFT_DIR) -Imlx_linux
 
 #Source Files
 #addprefix <prefix>, <list>

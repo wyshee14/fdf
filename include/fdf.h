@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/24 22:28:12 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/26 21:47:36 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FDF_H
 
 # include "../minilibx-linux/mlx.h"
+#include "X11/keysym.h"
 //# include "../minilibx-linux/mlx_int.h"
 # include "../libft/libft.h"
 # include "struct.h"
@@ -21,25 +22,23 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
-// Color component extraction macros
-#define R(color) ((color >> 16) & 0xFF)
-#define G(color) ((color >> 8) & 0xFF)
-#define B(color) (color & 0xFF)
-
-// Color combination macro
-#define RGB(r, g, b) ((r << 16) | (g << 8) | b)
-
 // Color
 #define DEFAULT_COLOR 0xFFFFFF
 
 // Define STD ERROR
 #define SPLIT_ERROR "Failed to split"
 
-#define HEIGHT 1920
-#define WIDTH 1080
-#define SCALE 20
+#define HEIGHT 2160
+#define WIDTH 3840
+#define SCALE 50
+#define MOVE_STEP 100
 
+// define key
 #define ESC_KEY 65307
+// #define KEY_UP 126
+// #define KEY_DOWN 125
+// #define KEY_LEFT 123
+// #define KEY_RIGHT 124
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -61,20 +60,22 @@ int		get_color(char *column_line);
 void	init_point(char **av, t_map *map, t_point ***arr);
 
 //key_hooks.c
-int	close_window(t_fdf *fdf);
-int press_esc(int key, t_fdf *fdf);
+int		close_window(t_fdf *fdf);
+int		press_key(int key, t_fdf *fdf);
+void	move(int key, t_fdf *fdf);
+void	setup_hook(t_fdf *fdf);
 
-//draw_line.c
+//draw.c
 void	my_mlx_pixel_put(t_img *s_img, int x, int y, int color);
 void	draw_line_bresenham(t_img *s_img, t_point *begin, t_point *end);
-void    slope_bigger_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *s_img);
-void    slope_less_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *s_img);
-void	draw_map(t_map *map, t_fdf *fdf, t_point **arr);
-//t_point *project_point(t_point *point, t_fdf *fdf);
+void	slope_bigger_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *s_img);
+void	slope_less_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *s_img);
+int	draw_map(t_fdf *fdf);
+t_point	ft_scale(t_point point, t_fdf *fdf);
 
 //color.c
 float	fraction(float x1, float x2, float x);
-int color_gradient(t_point *begin, t_point *end, float *distance);
-int get_gradient_color(t_point *current, t_point *begin, t_point *end, int *dx, int *dy);
+int		color_gradient(t_point *begin, t_point *end, float *distance);
+int		get_gradient_color(t_point *current, t_point *begin, t_point *end, int *dx, int *dy);
 
 #endif
