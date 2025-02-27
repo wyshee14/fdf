@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/26 21:38:34 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/27 15:51:25 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,8 @@ t_fdf	*init_fdf(t_fdf *fdf, char **av)
 		printf("Failed to create window\n");
 	fdf->img = init_img(fdf);
 	fdf->move = init_move();
-	fdf->map = ft_calloc(1, sizeof(t_move));
-	if (!fdf->map)
-		error_and_exit("Failed to allocate memory for map");
-	fdf->arr = parse_maps(av, fdf->map);
-	// draw_square(fdf->img, 5, 5, 50, 0xe0c887);
-	// mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
-	// mlx_loop(fdf->mlx);
+	fdf->map = parse_maps(av);
+	fdf->arr = init_point(av, fdf->map);
 	return(fdf);
 }
 

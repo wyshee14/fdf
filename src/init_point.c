@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:59:06 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/24 21:40:49 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/27 15:47:15 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,18 @@ int get_color(char *column_line)
 }
 
 //this function is used to plot the point on the map
-void init_point(char **av, t_map *map, t_point ***arr)
+t_point **init_point(char **av, t_map *map)
 {
 	int fd;
 	char *line;
 	int row = 0;
+	t_point **arr = NULL;
 
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		error_and_exit("Failed to open file\n");
 
-	allocate_map(map, arr);  // Ensure memory is allocated
+	allocate_map(map, &arr);  // Ensure memory is allocated
 	//printf("ptr_post_alloc: %p\n", *arr);
 
 	line = get_next_line(fd);
@@ -90,10 +91,10 @@ void init_point(char **av, t_map *map, t_point ***arr)
 		int col = 0;
 		while (column_line[col] && col < map->column)
 		{
-			(*arr)[row][col].x = col;
-			(*arr)[row][col].y = row;
-			(*arr)[row][col].z = ft_atoi(column_line[col]);
-			(*arr)[row][col].color = get_color(column_line[col]);
+			(arr)[row][col].x = col;
+			(arr)[row][col].y = row;
+			(arr)[row][col].z = ft_atoi(column_line[col]);
+			(arr)[row][col].color = get_color(column_line[col]);
 			col++;
 		}
 		free_2d_array(column_line);
@@ -113,4 +114,5 @@ void init_point(char **av, t_map *map, t_point ***arr)
 	// 	}
 	// 	printf("\n");
 	// }
+	return(arr);
 }

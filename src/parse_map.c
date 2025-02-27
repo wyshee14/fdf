@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:51:17 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/26 21:19:08 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/27 15:50:22 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,18 @@ void	set_map_row_and_column(char **av, t_map *map)
 	close(fd);
 }
 
-t_point	**parse_maps(char **av, t_map *map)
+t_map	*parse_maps(char **av)
 {
-	t_point **arr;
-	// t_map *map;
+	// t_point **arr;
+	t_map *map;
 
-	// map = ft_calloc(1, sizeof(t_move));
-	// if (!map)
-	// 	error_and_exit("Failed to allocate memory for map");
+	map = ft_calloc(1, sizeof(t_move));
+	if (!map)
+		error_and_exit("Failed to allocate memory for map");
 	//ft_memset(map, 0, sizeof(t_map));
 	if (check_file_extension(av[1]) == 0)
 		error_and_exit("Incorrect file extension\n");
 	set_map_row_and_column(av, map);
-	init_point(av, map, &arr);
-	return(arr);
+
+	return(map);
 }

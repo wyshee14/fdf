@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/26 21:47:36 by wshee            ###   ########.fr       */
+/*   Updated: 2025/02/27 17:33:43 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,17 @@ void	error_and_exit(char *message);
 int		check_file_extension(char *filename);
 void	find_column(char *line, int *fd, t_map *map);
 void	set_map_row_and_column(char **av, t_map *map);
-t_point	**parse_maps(char **av, t_map *map);
+t_map	*parse_maps(char **av);
 
 //init_point.c
 void	allocate_map(t_map *map, t_point ***arr);
 int		get_color(char *column_line);
-void	init_point(char **av, t_map *map, t_point ***arr);
+t_point	**init_point(char **av, t_map *map);
 
 //key_hooks.c
 int		close_window(t_fdf *fdf);
-int		press_key(int key, t_fdf *fdf);
+int		key_press(int key, t_fdf *fdf);
+void	zoom(int key, t_fdf *fdf);
 void	move(int key, t_fdf *fdf);
 void	setup_hook(t_fdf *fdf);
 
