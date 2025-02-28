@@ -82,7 +82,8 @@ int	draw_map(t_fdf *fdf)
 	int x;
 	int y;
 
-	ft_bzero(fdf->img->addr, HEIGHT * WIDTH * (fdf->img->bits_per_pixel / 8)); //clear image
+	clear_image(fdf);	
+	// ft_bzero(fdf->img->addr, HEIGHT * WIDTH * (fdf->img->bits_per_pixel / 8)); //clear image
 	//printf("Drawing...\n");
 	// printf("2 row: %d, column: %d\n", map->row, map->column);
 	y = 0;
@@ -216,8 +217,6 @@ void	slope_bigger_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img
 	}
 	my_mlx_pixel_put(img, end->x, end->y, end->color);
 }
-
-
 
 void	draw_line_bresenham(t_img *img, t_point *begin, t_point *end)
 {

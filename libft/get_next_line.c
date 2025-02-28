@@ -136,7 +136,14 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-//buffer is a section of memory that temperarily stores data
+// function read will return -1 when (fd == -1):
+// 1. non existing file 
+// 2. file permission denied
+// 3. system call interruption (when sigint ctrl + c)
+// since fd < 0 had been handled from the start, hence, read(fd, 0, 0) < 0 is unnecessary 
+// because read(fd, 0, 0) will returns 0 when fd is not -1
+// buffer[nbytes] must be terminated else will have garbage value
+// buffer is a section of memory that temperarily stores data
 //that is being transferred from one place to another.
 //static char acts as a persistent storage for unread data from the fd
 //allow to resume reading from where it left off

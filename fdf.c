@@ -12,6 +12,14 @@
 
 #include "../include/fdf.h"
 
+// Color component extraction macros
+#define R(color) ((color >> 16) & 0xFF)
+#define G(color) ((color >> 8) & 0xFF)
+#define B(color) (color & 0xFF)
+
+// Color combination macro
+#define RGB(r, g, b) ((r << 16) | (g << 8) | b)
+
 void draw_line(t_img *img, int beginX, int beginY, int endX, int endY, int color)
 {
 	double deltaX = endX - beginX; // 10

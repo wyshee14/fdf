@@ -79,4 +79,7 @@ float	fraction(float x1, float x2, float x);
 int		color_gradient(t_point *begin, t_point *end, float *distance);
 int		get_gradient_color(t_point *current, t_point *begin, t_point *end, int *dx, int *dy);
 
+//utils.c
+void    clear_image(t_fdf *fdf);
+
 #endif
