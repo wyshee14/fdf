@@ -15,6 +15,7 @@
 
 # include "../minilibx-linux/mlx.h"
 #include "X11/keysym.h"
+#include "X11/X.h"
 //# include "../minilibx-linux/mlx_int.h"
 # include "../libft/libft.h"
 # include "struct.h"
@@ -28,8 +29,8 @@
 // Define STD ERROR
 #define SPLIT_ERROR "Failed to split"
 
-#define HEIGHT 2160
-#define WIDTH 3840
+#define HEIGHT 1080
+#define WIDTH 1080
 #define SCALE 50
 #define MOVE_STEP 100
 
