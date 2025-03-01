@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/27 15:51:25 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/01 21:53:16 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ t_move *init_move(void)
 {
 	t_move *move;
 
-	move = ft_calloc(1, sizeof(t_move));
+	move = (t_move *)malloc(sizeof(t_move));
 	if (!move)
 		error_and_exit("Failed to allocate memory for move");
 	// move->step = 10;
 	move->offset_x = WIDTH / 2;
 	move->offset_y = HEIGHT / 2;
-	move->scale = 20;
+	move->scale = 5;
 	//printf("offset_x: %d, step: %d\n", move->offset_x, move->step);
 	return(move);
 }
