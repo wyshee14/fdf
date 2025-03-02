@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:14:58 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/01 18:14:45 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/02 21:41:45 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int key_press(int key, t_fdf *fdf)
 	}
 	if (key == XK_Up || key == XK_Down || key == XK_Left || key == XK_Right)
 		move(key, fdf);
-	// if (key == XK_Pointer_Button4 || key == XK_Pointer_Button5)
-	// 	zoom(key,fdf);
+	if (key == XK_equal || key == XK_minus)
+		zoom(key,fdf);
 	return(0);
 }
 
@@ -54,16 +54,14 @@ int mouse_scroll(int button, t_fdf *fdf)
 
 void zoom(int button, t_fdf *fdf)
 {
-	// if (key == XK_Shift_L || key == XK_Shift_R)
-	// 	fdf->shift_pressed = 1;
-	if (button == Button4)
+	if (button == XK_equal)
 	{
-		printf("Button: %d\n", button);
+		// printf("Button: %d\n", button);
 		fdf->move->scale += 1;
 	}
-	if (button == Button5)
+	if (button == XK_minus)
 	{
-		printf("Button: %d\n", button);
+		// printf("Button: %d\n", button);
 		fdf->move->scale -= 1;
 	}
 	draw_map(fdf);

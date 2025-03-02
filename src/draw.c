@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:48:18 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/27 15:36:40 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/02 22:30:28 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ t_point	ft_scale(t_point point, t_fdf *fdf)
 	// rotate_x(&point);
 	// printf("After projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
 	//move to centre
-	point.x += fdf->move->offset_x;
-	point.y += fdf->move->offset_y;
+	point.x += WIDTH / 2 + fdf->move->offset_x;
+	point.y += HEIGHT / 2 + fdf->move->offset_y;
 	// printf("[2] p1: %d\n", point.x);
 	return(point);
 }
@@ -82,7 +82,7 @@ int	draw_map(t_fdf *fdf)
 	int x;
 	int y;
 
-	clear_image(fdf);	
+	clear_image(fdf);
 	// ft_bzero(fdf->img->addr, HEIGHT * WIDTH * (fdf->img->bits_per_pixel / 8)); //clear image
 	//printf("Drawing...\n");
 	// printf("2 row: %d, column: %d\n", map->row, map->column);

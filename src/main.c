@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/01 21:53:16 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/02 22:40:53 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,26 @@ t_img *init_img(t_fdf *fdf)
 	return(img);
 }
 
-t_move *init_move(void)
+int get_scale(t_fdf *fdf)
+{
+	if ((WIDTH / fdf->map->column) < (HEIGHT / fdf->map->row))
+		return(WIDTH / fdf->map->column);
+	return (HEIGHT / fdf->map->row);
+}
+
+t_move *init_move(t_fdf *fdf)
 {
 	t_move *move;
+	(void)fdf;
 
 	move = (t_move *)malloc(sizeof(t_move));
 	if (!move)
 		error_and_exit("Failed to allocate memory for move");
 	// move->step = 10;
-	move->offset_x = WIDTH / 2;
-	move->offset_y = HEIGHT / 2;
-	move->scale = 5;
+	move->scale = get_scale(fdf);
+	printf("scale %d\n",move->scale);
+	move->offset_x = 0;
+	move->offset_y = 0;
 	//printf("offset_x: %d, step: %d\n", move->offset_x, move->step);
 	return(move);
 }
@@ -56,9 +65,9 @@ t_fdf	*init_fdf(t_fdf *fdf, char **av)
 	if (!fdf->win)
 		printf("Failed to create window\n");
 	fdf->img = init_img(fdf);
-	fdf->move = init_move();
 	fdf->map = parse_maps(av);
 	fdf->arr = init_point(av, fdf->map);
+	fdf->move = init_move(fdf);
 	return(fdf);
 }
 
