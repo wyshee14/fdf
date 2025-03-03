@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/01 18:08:54 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/03 22:21:05 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 #define HEIGHT 2000
 #define WIDTH 3000
-#define SCALE 50
+#define SCALE 5
 #define MOVE_STEP 100
 
 // define key
@@ -63,6 +63,9 @@ t_point	**init_point(char **av, t_map *map);
 //key_hooks.c
 int		close_window(t_fdf *fdf);
 int		key_press(int key, t_fdf *fdf);
+void	projection_pressed(int key, t_fdf *fdf);
+void	projection_type(int key, t_fdf *fdf);
+void	rotate(int key, t_fdf *fdf);
 void	zoom(int key, t_fdf *fdf);
 void	move(int key, t_fdf *fdf);
 void	setup_hook(t_fdf *fdf);
@@ -82,5 +85,10 @@ int		get_gradient_color(t_point *current, t_point *begin, t_point *end, int *dx,
 
 //utils.c
 void    clear_image(t_fdf *fdf);
+
+//rotate.c
+void	rotate_x(t_point *a, t_move *move);
+void	rotate_y(t_point *a, t_move *move);
+void	rotate_z(t_point *a, t_move *move);
 
 #endif

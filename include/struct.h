@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:54:29 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/27 17:37:19 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/03 22:02:02 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ typedef struct s_map {
 	int column;
 }				t_map;
 
+typedef enum projection
+{
+	TOP_VIEW,
+	FRONT_VIEW,
+	RIGHT_SIDE_VIEW
+}			t_projection;
+
 typedef struct s_move{
 	int mx;
 	int my;
@@ -33,6 +40,11 @@ typedef struct s_move{
 	int offset_y;
 	// int step;
 	int scale;
+	int z_max;
+	float alpha_x;
+	float tetha_y;
+	float gamma_z;
+	t_projection projection;
 }				t_move;
 
 typedef struct s_point{

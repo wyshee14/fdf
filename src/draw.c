@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:48:18 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/02 22:30:28 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/03 21:20:53 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,6 @@ void isometric_projection(t_point *point)
 	point->y = ((previous_x + point->y) * sin(iso_radian)) - point->z;
 }
 
-void	rotate_z(t_point *point)
-{
-	double rad_45 = M_PI / 4;
-	double prev_x = point->x;
-	double prev_y = point->y;
-	point->x = prev_x * cos(rad_45) - prev_y * sin(rad_45);
-	point->y = prev_x * sin(rad_45) + prev_y * cos(rad_45);
-}
-
-void	rotate_x(t_point *point)
-{
-	//double rad = atan(sqrt(2));
-	double cos_theta = 1 / sqrt(3);
-	double sin_theta = sqrt(2) / sqrt(3);
-
-	point->y = point->y * cos_theta - point->z * sin_theta;
-	point->z = point->y * sin_theta + point->z * cos_theta;
-}
-
 t_point	ft_scale(t_point point, t_fdf *fdf)
 {
 	// (void)map;
@@ -57,10 +38,10 @@ t_point	ft_scale(t_point point, t_fdf *fdf)
 	//convert to isometric
 	isometric_projection(&point);
 	// printf("Transformed  x: %d, y: %d, z: %d\n", point.x, point.y, point.z);
-	// printf("py: %d\n", point.y);
 	// printf("Before projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
-	// rotate_z(&point);
-	// rotate_x(&point);
+	rotate_x(&point, fdf->move);
+	rotate_y(&point, fdf->move);
+	rotate_z(&point, fdf->move);
 	// printf("After projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
 	//move to centre
 	point.x += WIDTH / 2 + fdf->move->offset_x;

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/02 22:40:53 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/03 21:25:53 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,52 @@ t_img *init_img(t_fdf *fdf)
 	return(img);
 }
 
-int get_scale(t_fdf *fdf)
+int get_scale(t_fdf *fdf, t_move *move)
 {
-	if ((WIDTH / fdf->map->column) < (HEIGHT / fdf->map->row))
-		return(WIDTH / fdf->map->column);
-	return (HEIGHT / fdf->map->row);
+	int min;
+	int x;
+	int y;
+	int z;
+
+	x = WIDTH / fdf->map->column / 5;
+	y = HEIGHT / fdf->map->row / 5;
+	z = HEIGHT / move->z_max / 5;
+	printf("x[%d], y[%d], z[%d]\n", x, y, z);
+	min = x;
+	if (min > y)
+		min = y;
+	if (min > z)
+		min = z;
+	if (min == 0)
+		min = 2;
+	printf("min: %d\n", min);
+	// if ((WIDTH / fdf->map->column) < (HEIGHT / fdf->map->row))
+	// 	return(WIDTH / fdf->map->column / 3);
+	// return (HEIGHT / fdf->map->row / 3);
+	return(min);
+}
+
+int find_z_max(t_fdf *fdf)
+{
+	int max;
+	int i;
+	int j;
+
+	max = fdf->arr[0][0].z;
+	j = 0;
+	while(j < fdf->map->row)
+	{
+		i = 0;
+		while(i < fdf->map->column)
+		{
+			if(max < fdf->arr[j][i].z)
+				max = fdf->arr[j][i].z;
+			i++;
+		}
+		j++;
+	}
+	// printf("z: %d\n", max);
+	return(max);
 }
 
 t_move *init_move(t_fdf *fdf)
@@ -41,14 +82,17 @@ t_move *init_move(t_fdf *fdf)
 	t_move *move;
 	(void)fdf;
 
-	move = (t_move *)malloc(sizeof(t_move));
+	move = ft_calloc(1, sizeof(t_move));
 	if (!move)
 		error_and_exit("Failed to allocate memory for move");
-	// move->step = 10;
-	move->scale = get_scale(fdf);
+	move->z_max = find_z_max(fdf);
+	printf("z[%d]\n", move->z_max);
+	// move->scale = SCALE;
+	move->scale = get_scale(fdf, move);
 	printf("scale %d\n",move->scale);
 	move->offset_x = 0;
 	move->offset_y = 0;
+	printf("gamma: %f\n", move->gamma_z);
 	//printf("offset_x: %d, step: %d\n", move->offset_x, move->step);
 	return(move);
 }

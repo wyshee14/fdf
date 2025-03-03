@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:51:17 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/27 15:50:22 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/03 18:37:47 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,38 @@ void	find_column(char *line, int *fd, t_map *map)
 {
 	char **width_line;
 	int column;
+	(void)fd;
 
 	width_line = ft_split(line, ' ');
 	if (!width_line)
 		error_and_exit(SPLIT_ERROR);
+
 	column = 0;
-	while(width_line[column] != NULL)
+	while (width_line[column] != NULL)
 		column++;
+
+	// Check if the last character in `line` is a space and adjust `column`
+	if (line[strlen(line) - 1] == ' ')
+		column--;
+
 	if (map->column == 0)
+	{
 		map->column = column;
+		// printf("col: %d\n", map->column);
+	}
 	else if (map->column != column)
 	{
+		//printf("col: %d\n", map->column);
 		close(*fd);
 		error_and_exit("Error: Inconsistent row lengths in map");
 	}
+
+	// Free allocated memory
+	for (int i = 0; width_line[i] != NULL; i++)
+		free(width_line[i]);
+	free(width_line);
 }
+
 
 void	set_map_row_and_column(char **av, t_map *map)
 {
