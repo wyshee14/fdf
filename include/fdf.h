@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/03 22:21:05 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/04 20:23:13 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 
 // Color
 #define DEFAULT_COLOR 0xFFFFFF
+#define COLOR1 0x87CEFA
+#define COLOR2 0x7CFC00
 
 // Define STD ERROR
 #define SPLIT_ERROR "Failed to split"

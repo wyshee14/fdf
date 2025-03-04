@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:51:17 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/03 18:37:47 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/04 15:10:45 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,16 @@ void	find_column(char *line, int *fd, t_map *map)
 
 	column = 0;
 	while (width_line[column] != NULL)
+	{
+		if (width_line[column][0] == '\n')
+			break ;
+		// printf("line[%d]: [%s]\n", column, width_line[column]);
 		column++;
-
+	}
 	// Check if the last character in `line` is a space and adjust `column`
-	if (line[strlen(line) - 1] == ' ')
-		column--;
-
+	// if (line[ft_strlen(line) - 1] == '\n')
+		// column--;
+	// printf("col: %d\n", column);
 	if (map->column == 0)
 	{
 		map->column = column;

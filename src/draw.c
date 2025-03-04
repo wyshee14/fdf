@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:48:18 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/03 21:20:53 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/04 14:22:39 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ t_point	ft_scale(t_point point, t_fdf *fdf)
 	point.x -= (fdf->map->column * fdf->move->scale) / 2;
 	point.y -= (fdf->map->row * fdf->move->scale) / 2;
 	//convert to isometric
-	isometric_projection(&point);
+	if (fdf->move->is_iso == 1)
+		isometric_projection(&point);
 	// printf("Transformed  x: %d, y: %d, z: %d\n", point.x, point.y, point.z);
 	// printf("Before projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
 	rotate_x(&point, fdf->move);

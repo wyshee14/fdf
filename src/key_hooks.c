@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:14:58 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/03 22:21:33 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/04 21:25:47 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int key_press(int key, t_fdf *fdf)
 		move(key, fdf);
 	if (key == XK_equal || key == XK_minus)
 		zoom(key,fdf);
-	if (key == XK_1 || key == XK_2 || key == XK_3)
+	if (key == XK_1 || key == XK_2 || key == XK_3 || key == XK_7 || key == XK_8 || key == XK_9)
 		rotate(key,fdf);
-	if (key == XK_p)
+	if (key == XK_p || key == XK_i)
 		projection_pressed(key, fdf);
+	// if (key == XK_KP_Space)
+	// 	change_color(key,fdf);
 	return(0);
 }
 
@@ -56,10 +58,42 @@ int mouse_scroll(int button, t_fdf *fdf)
 	return (0);
 }
 
+void	change_colour(int key, t_fdf *fdf)
+{
+	if (key == XK_KP_Space)
+	{
+		for(int i = 0; i < fdf->map->row; i++)
+		{
+			for (int j = 0; j < fdf->map->column; j++)
+			{
+				if (fdf->move->z_elevation > 0)
+				{
+					fdf->arr[j][i].color = COLOR1;
+				}
+				else
+					fdf->arr[j][i].color = COLOR2;
+				// if (fdf->arr[j][i].color == DEFAULT_COLOR)
+				// 	fdf->arr[j][i].color == COLOR1
+			}
+		}
+	}
+}
+
 void projection_pressed(int key, t_fdf *fdf)
 {
+	if (key == XK_i)
+	{
+		fdf->move->is_iso = 1;
+		fdf->move->alpha_x = 0;
+		fdf->move->tetha_y = 0;
+		fdf->move->gamma_z = 0;
+	}
 	if (key == XK_p)
 	{
+		fdf->move->is_iso = 0;
+		fdf->move->alpha_x = 0;
+		fdf->move->tetha_y = 0;
+		fdf->move->gamma_z = 0;
 		if (fdf->move->projection == 0)
 			fdf->move->projection = 1;
 		else if (fdf->move->projection == 1)
@@ -78,7 +112,7 @@ void	projection_type(int key, t_fdf *fdf)
 
 	rad = 90 * M_PI / 180;
 	rad2 = 270 * M_PI / 180;
-	printf("Projection value: %d\n", fdf->move->projection);
+	// printf("Projection value: %d\n", fdf->move->projection);
 	if (fdf->move->projection == TOP_VIEW)
 	{
 		fdf->move->alpha_x = 0;
@@ -87,15 +121,15 @@ void	projection_type(int key, t_fdf *fdf)
 	}
 	if (fdf->move->projection == FRONT_VIEW)
 	{
-		fdf->move->alpha_x = rad;
+		fdf->move->alpha_x = 0;
 		fdf->move->tetha_y = 0;
-		fdf->move->gamma_z = 0;
+		fdf->move->gamma_z = rad;
 	}
 	if (fdf->move->projection == RIGHT_SIDE_VIEW)
 	{
-		fdf->move->alpha_x = 0;
+		fdf->move->alpha_x = rad2;
 		fdf->move->tetha_y = rad;
-		fdf->move->gamma_z = rad2;
+		fdf->move->gamma_z = 0;
 	}
 }
 
@@ -110,6 +144,12 @@ void	rotate(int key, t_fdf *fdf)
 		fdf->move->tetha_y += 0.1;
 	if (key == XK_3)
 		fdf->move->alpha_x += 0.1;
+	if (key == XK_7)
+		fdf->move->gamma_z -= 0.1;
+	if (key == XK_8)
+		fdf->move->tetha_y -= 0.1;
+	if (key == XK_9)
+		fdf->move->alpha_x -= 0.1;
 }
 
 void zoom(int key, t_fdf *fdf)
