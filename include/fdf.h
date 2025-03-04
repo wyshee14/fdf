@@ -65,6 +65,8 @@ t_point	**init_point(char **av, t_map *map);
 //key_hooks.c
 int		close_window(t_fdf *fdf);
 int		key_press(int key, t_fdf *fdf);
+void	elevation(int key, t_fdf *fdf);
+void	change_colour(int key, t_fdf *fdf);
 void	projection_pressed(int key, t_fdf *fdf);
 void	projection_type(int key, t_fdf *fdf);
 void	rotate(int key, t_fdf *fdf);

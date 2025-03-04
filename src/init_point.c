@@ -95,6 +95,8 @@ t_point **init_point(char **av, t_map *map)
 			(arr)[row][col].y = row;
 			(arr)[row][col].z = ft_atoi(column_line[col]);
 			(arr)[row][col].color = get_color(column_line[col]);
+			(arr)[row][col].ori_color = (arr)[row][col].color;
+			// printf("col: %d, ori: %d\n", (arr)[row][col].color, (arr)[row][col].ori_color);
 			col++;
 		}
 		free_2d_array(column_line);

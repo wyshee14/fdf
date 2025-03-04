@@ -26,16 +26,13 @@ typedef struct s_map {
 	int column;
 }				t_map;
 
-typedef enum projection
-{
+typedef enum projection {
 	TOP_VIEW,
 	FRONT_VIEW,
 	RIGHT_SIDE_VIEW
 }			t_projection;
 
-typedef struct s_move{
-	int mx;
-	int my;
+typedef struct s_move {
 	int offset_x;
 	int offset_y;
 	// int step;
@@ -47,14 +44,16 @@ typedef struct s_move{
 	float tetha_y;
 	float gamma_z;
 	int is_iso;
+	int color_switch;
 	t_projection projection;
 }				t_move;
 
-typedef struct s_point{
+typedef struct s_point {
 	int x;
 	int y;
 	int z;
 	int color;
+	int ori_color;
 }				t_point;
 
 typedef struct s_fdf {

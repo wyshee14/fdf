@@ -73,7 +73,7 @@ int find_z_min(t_fdf *fdf)
 		}
 		j++;
 	}
-	printf("zmin: %d\n", min);
+	// printf("zmin: %d\n", min);
 	return(min);
 }
 
@@ -96,7 +96,7 @@ int find_z_max(t_fdf *fdf)
 		}
 		j++;
 	}
-	printf("zmax: %d\n", max);
+	// printf("zmax: %d\n", max);
 	return(max);
 }
 
