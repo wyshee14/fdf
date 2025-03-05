@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:28:21 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/05 17:53:29 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 18:47:34 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,48 +29,59 @@ void	free_2d_array(void **arr)
 void error_and_exit(char *message)
 {
 	perror(message);
-	// free_all(fdf);
+	// if (fdf)
+	// 	free_all(fdf);
 	exit(1);
 }
 
-void free_all(t_fdf *fdf)
+void	free_tpoint_arr(t_point **arr, t_map *map)
 {
-	int rows;
-
-	if (!fdf)
-		return ;
-	 // Free array first (since it depends on map->row)
-	if (fdf->arr)
+	if (arr)
 	{
-		if (fdf->map)
-			rows = fdf->map->row;
+		int rows;
+
+		if (map)
+			rows = map->row;
 		else
 			rows = 0;
 		for (int i = 0; i < rows; i++)
         {
-            if (fdf->arr[i])
-                free(fdf->arr[i]);
+            if (arr[i])
+                free(arr[i]);
         }
-        free(fdf->arr);
+        free(arr);
 		// Set to NULL to avoid double free
-		fdf->arr = NULL;
+		arr = NULL;
 	}
+}
+
+void free_map(t_map *map)
+{
+	if (map)
+	{
+		free(map);
+		map = NULL;
+	}
+}
+
+void free_all(t_fdf *fdf)
+{
+	if (!fdf)
+		return ;
+	 // Free array first (since it depends on map->row)
+	free_tpoint_arr(fdf->arr, fdf->map);
+	if(fdf->move)
+	{
+		free(fdf->move);
+		fdf->move = NULL;
+	}
+	free_map(fdf->map);
 	if (fdf->img)
 	{
 		if(fdf->mlx && fdf->img->img)
 			mlx_destroy_image(fdf->mlx, fdf->img->img);
 		free(fdf->img);
 		fdf->img = NULL;
-	}
-	if(fdf->move)
-	{
-		free(fdf->move);
-		fdf->move = NULL;
-	}
-	if (fdf->map)
-	{
-		free(fdf->map);
-		fdf->move = NULL;
 	}
 	if (fdf->mlx && fdf->win)
 	{
@@ -83,5 +94,4 @@ void free_all(t_fdf *fdf)
 		free(fdf->mlx);
 		fdf->mlx = NULL;
 	}
-	free(fdf);
 }

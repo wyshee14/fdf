@@ -6,13 +6,13 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:48:18 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/05 17:42:32 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 21:40:27 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
-void isometric_projection(t_point *point)
+void isometric_projection(t_point *point, t_fdf *fdf)
 {
 	double iso_radian;
 	int previous_x = point->x;
@@ -21,7 +21,7 @@ void isometric_projection(t_point *point)
 	iso_radian = (30) * M_PI / 180;
 	// printf("%f\n", iso_radian);
 	point->x = (previous_x - point->y) * cos(iso_radian);
-	point->y = ((previous_x + point->y) * sin(iso_radian)) - point->z;
+	point->y = ((previous_x + point->y) * sin(iso_radian)) - (point->z * fdf->move->z_factor);
 }
 
 t_point	ft_scale(t_point point, t_fdf *fdf)
@@ -37,7 +37,7 @@ t_point	ft_scale(t_point point, t_fdf *fdf)
 	point.y -= (fdf->map->row * fdf->move->scale) / 2;
 	//convert to isometric
 	if (fdf->move->is_iso == 1)
-		isometric_projection(&point);
+		isometric_projection(&point, fdf);
 	// printf("Transformed  x: %d, y: %d, z: %d\n", point.x, point.y, point.z);
 	// printf("Before projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
 	rotate_x(&point, fdf->move);

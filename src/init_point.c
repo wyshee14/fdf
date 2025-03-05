@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:59:06 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/05 17:52:50 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 18:35:27 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ void allocate_map(t_map *map, t_point ***arr)
 	// Allocate row pointers
 	*arr = (t_point **)ft_calloc(map->row, sizeof(t_point *));
 	if (!*arr)
+	{
+		free_2d_array((void **)(*arr));
+		free_map(map);
 		error_and_exit("Failed to allocate rows");
-
+	}
 	//printf("ptr_alloc_map2: %p\n", *arr);
 
 	// Allocate columns
@@ -34,16 +37,15 @@ void allocate_map(t_map *map, t_point ***arr)
 		if (!(*arr)[i])
 		{
 			// Free previously allocated rows before exiting
-			while (--i >= 0)
-				free((*arr)[i]);
-			free(*arr);
+			free_2d_array((void **)(*arr));
+			free_map(map);
 			error_and_exit("Failed to allocate columns");
 		}
 	}
 }
 
 //ft_atoi_base convert string to integer (base 16 to 10)
-int get_color(char *column_line)
+int get_color(char *column_line, t_map *map)
 {
 	int	i;
 	char **color_arr = NULL;
@@ -57,7 +59,10 @@ int get_color(char *column_line)
 		{
 			color_arr = ft_split(column_line, ',');
 			if (!color_arr)
+			{
+				free_map(map);
 				error_and_exit(SPLIT_ERROR);
+			}
 			// for(int i = 0; color_arr[i] != NULL; i++)
 			// 	printf("color[%d]: %s\n", i, color_arr[i]);
 			color = ft_atoi_base(color_arr[1], 16);
@@ -77,6 +82,8 @@ t_point **init_point(char **av, t_map *map)
 	int row = 0;
 	t_point **arr = NULL;
 
+	if (map == NULL)
+		return (NULL);
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		error_and_exit("Failed to open file\n");
@@ -96,7 +103,7 @@ t_point **init_point(char **av, t_map *map)
 			(arr)[row][col].x = col;
 			(arr)[row][col].y = row;
 			(arr)[row][col].z = ft_atoi(column_line[col]);
-			(arr)[row][col].color = get_color(column_line[col]);
+			(arr)[row][col].color = get_color(column_line[col], map);
 			(arr)[row][col].ori_color = (arr)[row][col].color;
 			// printf("col: %d, ori: %d\n", (arr)[row][col].color, (arr)[row][col].ori_color);
 			col++;

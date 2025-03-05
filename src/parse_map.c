@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:51:17 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/05 17:56:46 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 20:40:15 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ void	find_column(char *line, int *fd, t_map *map)
 
 	width_line = ft_split(line, ' ');
 	if (!width_line)
+	{
+		free_map(map);
 		error_and_exit(SPLIT_ERROR);
-
+	}
 	column = 0;
 	while (width_line[column] != NULL)
 	{
@@ -69,6 +71,7 @@ void	find_column(char *line, int *fd, t_map *map)
 	{
 		//printf("col: %d\n", map->column);
 		close(*fd);
+		free_map(map);
 		error_and_exit("Error: Inconsistent row lengths in map");
 	}
 
@@ -89,7 +92,10 @@ void	set_map_row_and_column(char **av, t_map *map)
 	rows = 0;
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
+	{
+		free_map(map);
 		error_and_exit("Failed to open file\n");
+	}
 	// printf("fd: %d\n", fd);
 	line = get_next_line(fd);
 	while (line != NULL)
@@ -108,16 +114,19 @@ void	set_map_row_and_column(char **av, t_map *map)
 
 t_map	*parse_maps(char **av)
 {
-	// t_point **arr;
 	t_map *map;
 
 	map = ft_calloc(1, sizeof(t_move));
 	if (!map)
+	{
+		free_map(map);
 		error_and_exit("Failed to allocate memory for map");
-	//ft_memset(map, 0, sizeof(t_map));
+	}
 	if (check_file_extension(av[1]))
+	{
+		free_map(map);
 		error_and_exit("Incorrect file extension\n");
+	}
 	set_map_row_and_column(av, map);
-
 	return(map);
 }

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:46:33 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/21 18:02:24 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 20:41:09 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,14 +175,4 @@ int mouse_hook(int keycode, t_fdf *vars)
 // 	return(0);
 // }
 
-// Function: mlx_get_data_addr
-// t_img *img: A pointer to an image structure.
-// int *bits_per_pixel: Pointer to an integer where the function stores the number of bits per pixel.
-// int *size_line: Pointer to an integer where the function stores the number of bytes per row of the image.
-// int *endian: Pointer to an integer where the function stores the endian format of the image (big-endian or little-endian).
-// Bid Endian (endian == 1): most significant byte (MSB) is stored first (lowest memory address)
-// Little-Endian (endian == 0): least significant byte (LSB) is stored first.
-// Returns: A pointer to the raw pixel data of the image.
 
-// Function: mlx_loop
-// infinite loop that waits for an event,

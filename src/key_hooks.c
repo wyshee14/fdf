@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:14:58 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/05 17:17:54 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 21:35:19 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	elevation(int key, t_fdf *fdf)
 		while(j < fdf->map->column)
 		{
 			if (key == XK_z)
-				fdf->arr[i][j].z += 0.1;
+				fdf->move->z_factor += 0.1;
+				//fdf->arr[i][j].z *= 2;
 			else if(key == XK_x)
 				fdf->arr[i][j].z -= 0.1;
 			j++;
