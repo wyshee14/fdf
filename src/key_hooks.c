@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:14:58 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/04 21:25:47 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 17:17:54 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,16 @@
 
 int close_window(t_fdf *fdf)
 {
-	if (fdf->win)
+	// if (fdf->win)
+	// {
+	// 	mlx_destroy_window(fdf->mlx, fdf->win);
+	// 	mlx_destroy_display(fdf->mlx);
+	// 	fdf->win = NULL;
+	// }
+	if(fdf)
 	{
-		mlx_destroy_window(fdf->mlx, fdf->win);
-		fdf->win = NULL;
+		free_all(fdf);
+		fdf = NULL;
 	}
 	exit(0);
 	return(0);
@@ -27,9 +33,15 @@ int key_press(int key, t_fdf *fdf)
 {
 	if(key == ESC_KEY)
 	{
-		mlx_destroy_window(fdf->mlx, fdf->win);
-		fdf->win = NULL;
+		// mlx_destroy_window(fdf->mlx, fdf->win);
+		// fdf->win = NULL;
+		if(fdf)
+		{
+			free_all(fdf);
+			fdf = NULL;
+		}
 		exit(0);
+		// close_window(fdf);
 	}
 	if (key == XK_Up || key == XK_Down || key == XK_Left || key == XK_Right)
 		move(key, fdf);

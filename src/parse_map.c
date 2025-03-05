@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:51:17 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/04 15:10:45 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 17:56:46 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,31 @@
 
 int check_file_extension(char *filename)
 {
-	const char *extension;
-	size_t filename_len;
-	size_t	ext_len;
-	const char *file_ext;
+	const char		*extension = ".fdf";
+	//const char		*file_ext;
+	int	ext_len = ft_strlen(extension);
+	int filename_len = ft_strlen(filename);
+	// printf("%d, %d", ext_len, filename_len);
+	//int i = 0;
 
-	extension = ".fdf";
-	filename_len = ft_strlen(filename);
-	ext_len = ft_strlen(extension);
-	if (!filename)
-		return(0);
-	file_ext = filename + (filename_len - ext_len);
-	if (strncmp(file_ext, extension, ext_len) == 0 && file_ext[-1] != '\0')
-		return (1);
+	if (filename_len == 0 || filename_len <= ext_len)
+		return(1);
+	while (ext_len > 0)
+	{
+		if (filename[filename_len - 1] != extension[ext_len - 1])
+		{
+			printf("extlen: %d\n", ext_len);
+			return(1);
+		}
+		ext_len--;
+		filename_len--;
+	}
+	// filename_len = ft_strlen(filename);
+	// if (!filename)
+	// 	return(0);
+	// file_ext = filename + (filename_len - ext_len);
+	// if (strncmp(file_ext, extension, ext_len) == 0 && file_ext[-1] != '\0')
+	// 	return (1);
 	return(0);
 }
 
@@ -48,10 +60,6 @@ void	find_column(char *line, int *fd, t_map *map)
 		// printf("line[%d]: [%s]\n", column, width_line[column]);
 		column++;
 	}
-	// Check if the last character in `line` is a space and adjust `column`
-	// if (line[ft_strlen(line) - 1] == '\n')
-		// column--;
-	// printf("col: %d\n", column);
 	if (map->column == 0)
 	{
 		map->column = column;
@@ -65,9 +73,10 @@ void	find_column(char *line, int *fd, t_map *map)
 	}
 
 	// Free allocated memory
-	for (int i = 0; width_line[i] != NULL; i++)
-		free(width_line[i]);
-	free(width_line);
+	// for (int i = 0; width_line[i] != NULL; i++)
+	// 	free(width_line[i]);
+	// free(width_line);
+	free_2d_array((void **)width_line);
 }
 
 
@@ -106,7 +115,7 @@ t_map	*parse_maps(char **av)
 	if (!map)
 		error_and_exit("Failed to allocate memory for map");
 	//ft_memset(map, 0, sizeof(t_map));
-	if (check_file_extension(av[1]) == 0)
+	if (check_file_extension(av[1]))
 		error_and_exit("Incorrect file extension\n");
 	set_map_row_and_column(av, map);
 

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:48:18 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/04 14:22:39 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 17:42:32 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,8 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	char *dst;
 
 	if (!img || !img->addr)
-		error_and_exit("Error: Invalid image pointer\n");
+		return ;
+		//error_and_exit("Error: Invalid image pointer\n");
 	if(x < 0 || y < 0|| x >= WIDTH || y >= HEIGHT)
 		return ;
 		// error_and_exit("Error: image drawing out of bound\n");

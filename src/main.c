@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:02:09 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/04 21:12:23 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 17:55:01 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ t_img *init_img(t_fdf *fdf)
 	img->img = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
 	//printf("img: %p\n", img->img);
 	if (!img->img)
-		printf("Failed to allocate new image\n");
+		error_and_exit("Failed to allocate new image\n");
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
 	if (!img->addr)
-		printf("Failed to get img address\n");
+		error_and_exit("Failed to get img address\n");
 	return(img);
 }
 
@@ -109,9 +109,9 @@ t_move *init_move(t_fdf *fdf)
 	if (!move)
 		error_and_exit("Failed to allocate memory for move");
 	move->z_min = find_z_min(fdf);
-	printf("zmin[%d]\n", move->z_min);
+	// printf("zmin[%d]\n", move->z_min);
 	move->z_max = find_z_max(fdf);
-	printf("zmax[%d]\n", move->z_max);
+	// printf("zmax[%d]\n", move->z_max);
 	move->z_elevation = move->z_max - move->z_min;
 	// move->scale = SCALE;
 	move->scale = get_scale(fdf, move);
@@ -144,19 +144,13 @@ t_fdf	*init_fdf(t_fdf *fdf, char **av)
 
 int main(int ac, char **av)
 {
-	//t_map map;
 	t_fdf *fdf;
-	// t_point **arr;
 
 	fdf = NULL;
-	// arr = NULL;
 	if (ac != 2)
 		error_and_exit("Usage: ./fdf test_map.fdf\n");
 	fdf = init_fdf(fdf, av);
-	// draw_square(fdf->img, 5, 5, 50, 0xe0c887);
 	draw_map(fdf);
-	// mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
 	setup_hook(fdf);
-	//free(map);
 	mlx_loop(fdf->mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:59:06 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/27 15:47:15 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 17:52:50 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,22 @@ void allocate_map(t_map *map, t_point ***arr)
 int get_color(char *column_line)
 {
 	int	i;
-	char **color_arr;
+	char **color_arr = NULL;
 	int	color;
 
 	i = 0;
 	while (column_line[i])
 	{
+		// printf("color....\n");
 		if(column_line[i] == ',')
 		{
 			color_arr = ft_split(column_line, ',');
 			if (!color_arr)
 				error_and_exit(SPLIT_ERROR);
 			// for(int i = 0; color_arr[i] != NULL; i++)
-			// 	printf("color: %s\n", color_arr[i]);
+			// 	printf("color[%d]: %s\n", i, color_arr[i]);
 			color = ft_atoi_base(color_arr[1], 16);
+			free_2d_array((void **)color_arr);
 			return(color);
 		}
 		i++;
@@ -99,7 +101,7 @@ t_point **init_point(char **av, t_map *map)
 			// printf("col: %d, ori: %d\n", (arr)[row][col].color, (arr)[row][col].ori_color);
 			col++;
 		}
-		free_2d_array(column_line);
+		free_2d_array((void **)column_line);
 		free(line);
 		line = get_next_line(fd);
 		row++;  // Move to the next row

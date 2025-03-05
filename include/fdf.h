@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/04 20:23:13 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/05 17:56:13 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@
 #endif
 
 //error_handling.c
-void	free_2d_array(char **arr);
+void	free_2d_array(void **arr);
 void	error_and_exit(char *message);
+void	free_all(t_fdf *fdf);
 
 //parse_map.c
 int		check_file_extension(char *filename);
