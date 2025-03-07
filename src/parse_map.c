@@ -6,21 +6,21 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:51:17 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/05 20:40:15 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/07 20:27:13 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
+// check whether the av[1] extension is .fdf
 int check_file_extension(char *filename)
 {
-	const char		*extension = ".fdf";
-	//const char		*file_ext;
-	int	ext_len = ft_strlen(extension);
-	int filename_len = ft_strlen(filename);
-	// printf("%d, %d", ext_len, filename_len);
-	//int i = 0;
+	const char	*extension = ".fdf";
+	int	ext_len;
+	int filename_len;
 
+	ext_len = ft_strlen(extension);
+	filename_len = ft_strlen(filename);
 	if (filename_len == 0 || filename_len <= ext_len)
 		return(1);
 	while (ext_len > 0)
@@ -33,20 +33,15 @@ int check_file_extension(char *filename)
 		ext_len--;
 		filename_len--;
 	}
-	// filename_len = ft_strlen(filename);
-	// if (!filename)
-	// 	return(0);
-	// file_ext = filename + (filename_len - ext_len);
-	// if (strncmp(file_ext, extension, ext_len) == 0 && file_ext[-1] != '\0')
-	// 	return (1);
 	return(0);
 }
 
+// find the number of column using ft_split
+// check whether the number of column is consistent in every row
 void	find_column(char *line, int *fd, t_map *map)
 {
-	char **width_line;
-	int column;
-	(void)fd;
+	char	**width_line;
+	int		column;
 
 	width_line = ft_split(line, ' ');
 	if (!width_line)
@@ -59,35 +54,27 @@ void	find_column(char *line, int *fd, t_map *map)
 	{
 		if (width_line[column][0] == '\n')
 			break ;
-		// printf("line[%d]: [%s]\n", column, width_line[column]);
 		column++;
 	}
 	if (map->column == 0)
-	{
 		map->column = column;
-		// printf("col: %d\n", map->column);
-	}
 	else if (map->column != column)
 	{
-		//printf("col: %d\n", map->column);
 		close(*fd);
 		free_map(map);
 		error_and_exit("Error: Inconsistent row lengths in map");
 	}
-
-	// Free allocated memory
-	// for (int i = 0; width_line[i] != NULL; i++)
-	// 	free(width_line[i]);
-	// free(width_line);
 	free_2d_array((void **)width_line);
 }
 
-
+// read the file until next line
+// count the number of rows from the input file
+// iterate through the file using get next line
 void	set_map_row_and_column(char **av, t_map *map)
 {
-	int rows;
-	int fd;
-	char *line;
+	int		rows;
+	int		fd;
+	char	*line;
 
 	rows = 0;
 	fd = open(av[1], O_RDONLY);
@@ -96,22 +83,20 @@ void	set_map_row_and_column(char **av, t_map *map)
 		free_map(map);
 		error_and_exit("Failed to open file\n");
 	}
-	// printf("fd: %d\n", fd);
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
 		rows++;
-		//printf("line: %s", line);
 		find_column(line, &fd, map);
 		free(line);
 		line = get_next_line(fd);
-		//printf("line2: %s\n", line);
 	}
 	free(line);
 	map->row = rows;
 	close(fd);
 }
 
+// get the number of rows and column from the map
 t_map	*parse_maps(char **av)
 {
 	t_map *map;
@@ -125,7 +110,7 @@ t_map	*parse_maps(char **av)
 	if (check_file_extension(av[1]))
 	{
 		free_map(map);
-		error_and_exit("Incorrect file extension\n");
+		error_and_exit("Incorrect file extension");
 	}
 	set_map_row_and_column(av, map);
 	return(map);

@@ -6,12 +6,16 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 21:12:26 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/05 21:30:42 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/07 21:25:11 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
+// we create another function called mlx_my_pixel_put instead of using mlx_pixel_put
+// as it puts each pixel to the window which causes very slow
+// hence mlx_put_image_to_window is when the pixel is put into the buffer of image
+// and then push the whole image to the window
 // Function: mlx_get_data_addr
 // t_img *img: A pointer to an image structure.
 // int *bits_per_pixel: Pointer to an integer where the function stores the number of bits per pixel.
@@ -45,7 +49,6 @@ t_img *init_img(t_fdf *fdf)
 t_move *init_move(t_fdf *fdf)
 {
 	t_move *move;
-	(void)fdf;
 
 	move = ft_calloc(1, sizeof(t_move));
 	if (!move)
@@ -58,13 +61,14 @@ t_move *init_move(t_fdf *fdf)
 	move->scale = get_scale(fdf, move);
 	move->is_iso = 1;
 	move->z_factor = 1;
-	// printf("gamma: %f\n", move->gamma_z);
-	//printf("offset_x: %d, step: %d\n", move->offset_x, move->step);
 	return(move);
 }
 
-//initialize the
-
+// mlx_init establish connection to the correct graphical system
+// return a pointer to the MLX connection(aka MLX instance) if successful, or NULL if fails
+// mlx_new_window initialize the window
+// return a pointer of the window
+// mlx_loop initiate the window rendering
 void	init_fdf(t_fdf *fdf, char **av)
 {
 	ft_memset(fdf, 0, sizeof(t_fdf));

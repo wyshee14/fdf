@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:54:29 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/05 21:34:12 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/07 20:25:14 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_fdf {
 	t_move	*move;
 	t_map	*map;
 	t_point **arr;
-	int shift_pressed;
 }				t_fdf;
 
 #endif

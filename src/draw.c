@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:48:18 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/05 21:40:27 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/07 22:04:33 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void isometric_projection(t_point *point, t_fdf *fdf)
 	int previous_x = point->x;
 	// double previous_y = point->y;
 
-	iso_radian = (30) * M_PI / 180;
+	iso_radian = 30 * M_PI / 180;
 	// printf("%f\n", iso_radian);
 	point->x = (previous_x - point->y) * cos(iso_radian);
 	point->y = ((previous_x + point->y) * sin(iso_radian)) - (point->z * fdf->move->z_factor);
@@ -28,16 +28,17 @@ t_point	ft_scale(t_point point, t_fdf *fdf)
 {
 	// (void)map;
 
-	//printf("Ori point: x[%d], y[%d], z[%d]\n", point.x, point.y, point.z);
+	// printf("Ori point: x[%d], y[%d], z[%f]\n", point.x, point.y, point.z);
 	point.x *= fdf->move->scale;
 	point.y *= fdf->move->scale;
 	point.z *= fdf->move->scale;
+	// printf("After point: x[%d], y[%d], z[%f]\n", point.x, point.y, point.z);
 	//centre of the map become the new origin (0,0)
 	point.x -= (fdf->map->column * fdf->move->scale) / 2;
 	point.y -= (fdf->map->row * fdf->move->scale) / 2;
 	//convert to isometric
-	if (fdf->move->is_iso == 1)
-		isometric_projection(&point, fdf);
+	// if (fdf->move->is_iso == 1)
+	// 	isometric_projection(&point, fdf);
 	// printf("Transformed  x: %d, y: %d, z: %d\n", point.x, point.y, point.z);
 	// printf("Before projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
 	rotate_x(&point, fdf->move);
@@ -79,13 +80,13 @@ int	draw_map(t_fdf *fdf)
 			if(x != fdf->map->column - 1) //draw to the right until the last
 			{
 				t_point p3 = ft_scale(fdf->arr[y][x + 1], fdf);
-				// printf("p1x: %d, p3x: %d\n", p1.x, p3.x);
+				printf("p1: x[%d] y[%d], p3: x[%d] y[%d]\n", p1.x, p1.y, p3.x, p3.y);
 				draw_line_bresenham(fdf->img, &p1, &p3);
 			}
 			if(y != fdf->map->row - 1) //draw to downwards
 			{
 				t_point p2 = ft_scale(fdf->arr[y + 1][x], fdf);
-				// printf("p1y: %d, p3y: %d\n", p1.y, p2.y);
+				printf("p1: x[%d] y[%d], p2: x[%d] y[%d]\n", p1.x, p1.y, p2.x, p2.y);
 				draw_line_bresenham(fdf->img, &p1, &p2);
 			}
 			x++; //Move to the right
@@ -96,6 +97,7 @@ int	draw_map(t_fdf *fdf)
 	return(0);
 }
 
+//TODO split into 2 function
 void slope_less_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *img)
 {
 	int p;
@@ -105,8 +107,10 @@ void slope_less_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *
 
 	//i = 0;
 	p = 2 * abs(*dy) - abs(*dx);
+	printf("dy: %d\n", *dy);
 	if (*dy == 0)
 	{
+		printf("(dx)\n");
 		int end_x = end->x;
 		int step = (*dx > 0) ? 1 : -1;
 		while(current.x != end_x)
@@ -123,21 +127,22 @@ void slope_less_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *
 	// printf("current: x[%d], y[%d]", current.x, current.y);
 	while (current.x != end->x || current.y != end->y)
 	{
+		// printf("yesssss\n");
 		current.color = get_gradient_color(&current, begin, end, dx, dy);
 		my_mlx_pixel_put(img, current.x, current.y, current.color);
 		if((*dx) > 0)
-		current.x += 1;
+			current.x += 1;
 		else
-		current.x -= 1;
+			current.x -= 1;
 		//printf("beginx: %d\n", begin->x);
 		if (p < 0)
-		p = p + 2 * abs(*dy);
+			p = p + 2 * abs(*dy);
 	  	else
 	  	{
 			if ((*dy) > 0)
-			current.y += 1;
+				current.y += 1;
 			else
-			current.y -= 1;
+				current.y -= 1;
 			//printf("beginy: %d\n", begin->y);
 			p = p + 2 * abs(*dy) - 2 * abs(*dx);
 		}
@@ -147,6 +152,7 @@ void slope_less_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *
 	my_mlx_pixel_put(img, end->x, end->y, end->color);
 }
 
+//TODO split into 2 function
 void	slope_bigger_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *img)
 {
 	int p;
@@ -157,9 +163,11 @@ void	slope_bigger_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img
 	// printf("[2]dx2: %d, dy2: %d\n", *dx, *dy);
 	// i = 0;
 	p = 2 * abs(*dx) - abs(*dy);
+	printf("dx: %d\n", *dx);
 	// printf("[1]beginx: %d, begin.y: %d\n", begin->x, begin->y);
 	if (*dx == 0)
 	{
+		printf("(dx)\n");
 		int end_y = end->y;
 		int step = (*dy > 0) ? 1 : -1;
 		while(current.y != end_y)
@@ -174,21 +182,22 @@ void	slope_bigger_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img
 	}
 	while (current.x != end->x || current.y != end->y)
 	{
+		// printf("noooo\n");
 		current.color = get_gradient_color(&current, begin, end, dx, dy);
 		my_mlx_pixel_put(img, current.x, current.y, current.color);
 		if((*dy) > 0)
-		current.y += 1;
+			current.y += 1;
 		else if ((*dy) < 0)
-		current.y -= 1;
+			current.y -= 1;
 		// printf("beginy: %d\n", begin->y);
 		if (p < 0)
-		p = p + 2 * abs(*dx);
+			p = p + 2 * abs(*dx);
 		else
 		{
 			if ((*dx) > 0)
-			current.x += 1;
+				current.x += 1;
 			else if ((*dx) < 0)
-			current.x -= 1;
+				current.x -= 1;
 			// printf("beginx: %d\n", begin->x);
 			p = p + 2 * abs(*dx) - 2 * abs(*dy);
 		}
@@ -210,7 +219,7 @@ void	draw_line_bresenham(t_img *img, t_point *begin, t_point *end)
 	dx = (end->x - begin->x); // abs (returns positive number) using stdlib.h, forbidden -- need to create a new function
 	dy = (end->y - begin->y);
 	//distance = get_max_distance(&dx, &dy);
-	// printf("[1]dx: %d, dy: %d\n", dx, dy);
+	printf("[1]dx: %d, dy: %d\n", dx, dy);
 	if (abs(dx) > abs(dy))
 	{
 		slope_less_than_one(begin, end, &dx, &dy, img); //shallow lines

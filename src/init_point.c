@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:59:06 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/05 18:35:27 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/07 21:24:09 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ void allocate_map(t_map *map, t_point ***arr)
 {
 	int i;
 
-	printf("row: %d, column: %d\n", map->row, map->column);
-	//printf("ptr_alloc_map: %p\n", *arr);
-
-	// Allocate row pointers
 	*arr = (t_point **)ft_calloc(map->row, sizeof(t_point *));
 	if (!*arr)
 	{
@@ -28,10 +24,8 @@ void allocate_map(t_map *map, t_point ***arr)
 		free_map(map);
 		error_and_exit("Failed to allocate rows");
 	}
-	//printf("ptr_alloc_map2: %p\n", *arr);
-
-	// Allocate columns
-	for (i = 0; i < map->row; i++)
+	i = 0;
+	while(i < map->row)
 	{
 		(*arr)[i] = (t_point *)ft_calloc(map->column, sizeof(t_point));
 		if (!(*arr)[i])
@@ -41,6 +35,7 @@ void allocate_map(t_map *map, t_point ***arr)
 			free_map(map);
 			error_and_exit("Failed to allocate columns");
 		}
+		i++;
 	}
 }
 
@@ -54,7 +49,6 @@ int get_color(char *column_line, t_map *map)
 	i = 0;
 	while (column_line[i])
 	{
-		// printf("color....\n");
 		if(column_line[i] == ',')
 		{
 			color_arr = ft_split(column_line, ',');
@@ -63,8 +57,6 @@ int get_color(char *column_line, t_map *map)
 				free_map(map);
 				error_and_exit(SPLIT_ERROR);
 			}
-			// for(int i = 0; color_arr[i] != NULL; i++)
-			// 	printf("color[%d]: %s\n", i, color_arr[i]);
 			color = ft_atoi_base(color_arr[1], 16);
 			free_2d_array((void **)color_arr);
 			return(color);
@@ -74,56 +66,51 @@ int get_color(char *column_line, t_map *map)
 	return(DEFAULT_COLOR);
 }
 
-//this function is used to plot the point on the map
+void extract_data(char *line, t_point ***arr, t_map *map, int row)
+{
+		char **column_line;
+		int col;
+
+		column_line = ft_split(line, ' ');
+		if (!column_line)
+			error_and_exit(SPLIT_ERROR);
+		col = 0;
+		while (column_line[col] && col < map->column)
+		{
+			(*arr)[row][col].x = col;
+			(*arr)[row][col].y = row;
+			(*arr)[row][col].z = ft_atoi(column_line[col]);
+			(*arr)[row][col].color = get_color(column_line[col], map);
+			(*arr)[row][col].ori_color = (*arr)[row][col].color;
+			col++;
+		}
+		free_2d_array((void **)column_line);
+}
+
+// this function is used to plot the point on the map
 t_point **init_point(char **av, t_map *map)
 {
 	int fd;
 	char *line;
-	int row = 0;
-	t_point **arr = NULL;
+	int row;
+	t_point **arr;
 
+	arr = NULL;
 	if (map == NULL)
 		return (NULL);
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		error_and_exit("Failed to open file\n");
-
-	allocate_map(map, &arr);  // Ensure memory is allocated
-	//printf("ptr_post_alloc: %p\n", *arr);
-
+	allocate_map(map, &arr);
 	line = get_next_line(fd);
+	row = 0;
 	while (line != NULL && row < map->row)
 	{
-		char **column_line = ft_split(line, ' ');
-		if (!column_line)
-			error_and_exit(SPLIT_ERROR);
-		int col = 0;
-		while (column_line[col] && col < map->column)
-		{
-			(arr)[row][col].x = col;
-			(arr)[row][col].y = row;
-			(arr)[row][col].z = ft_atoi(column_line[col]);
-			(arr)[row][col].color = get_color(column_line[col], map);
-			(arr)[row][col].ori_color = (arr)[row][col].color;
-			// printf("col: %d, ori: %d\n", (arr)[row][col].color, (arr)[row][col].ori_color);
-			col++;
-		}
-		free_2d_array((void **)column_line);
+		extract_data(line, &arr, map, row);
 		free(line);
 		line = get_next_line(fd);
-		row++;  // Move to the next row
+		row++;
 	}
-
 	close(fd);
-
-	//Debugging print
-	// for (int i = 0; i < map->row; i++)
-	// {
-	// 	for (int j = 0; j < map->column; j++)
-	// 	{
-	// 		printf("%d ", (*arr)[i][j].y);
-	// 	}
-	// 	printf("\n");
-	// }
 	return(arr);
 }
