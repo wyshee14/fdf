@@ -58,12 +58,12 @@ int key_press(int key, t_fdf *fdf)
 	return(0);
 }
 
-int key_release(int key, t_fdf *fdf)
-{
-	if (key == XK_Shift_L || key == XK_Shift_R)
-		fdf->shift_pressed = 0;
-	return(0);
-}
+// int key_release(int key, t_fdf *fdf)
+// {
+// 	if (key == XK_Shift_L || key == XK_Shift_R)
+// 		fdf->shift_pressed = 0;
+// 	return(0);
+// }
 
 int mouse_scroll(int button, t_fdf *fdf)
 {

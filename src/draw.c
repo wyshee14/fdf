@@ -26,8 +26,6 @@ void isometric_projection(t_point *point, t_fdf *fdf)
 
 t_point	ft_scale(t_point point, t_fdf *fdf)
 {
-	// (void)map;
-
 	// printf("Ori point: x[%d], y[%d], z[%f]\n", point.x, point.y, point.z);
 	point.x *= fdf->move->scale;
 	point.y *= fdf->move->scale;
@@ -37,8 +35,8 @@ t_point	ft_scale(t_point point, t_fdf *fdf)
 	point.x -= (fdf->map->column * fdf->move->scale) / 2;
 	point.y -= (fdf->map->row * fdf->move->scale) / 2;
 	//convert to isometric
-	// if (fdf->move->is_iso == 1)
-	// 	isometric_projection(&point, fdf);
+	if (fdf->move->is_iso == 1)
+		isometric_projection(&point, fdf);
 	// printf("Transformed  x: %d, y: %d, z: %d\n", point.x, point.y, point.z);
 	// printf("Before projection: x=%d, y=%d, z=%d\n", point.x, point.y, point.z);
 	rotate_x(&point, fdf->move);
@@ -80,13 +78,13 @@ int	draw_map(t_fdf *fdf)
 			if(x != fdf->map->column - 1) //draw to the right until the last
 			{
 				t_point p3 = ft_scale(fdf->arr[y][x + 1], fdf);
-				printf("p1: x[%d] y[%d], p3: x[%d] y[%d]\n", p1.x, p1.y, p3.x, p3.y);
+				// printf("p1: x[%d] y[%d], p3: x[%d] y[%d]\n", p1.x, p1.y, p3.x, p3.y);
 				draw_line_bresenham(fdf->img, &p1, &p3);
 			}
 			if(y != fdf->map->row - 1) //draw to downwards
 			{
 				t_point p2 = ft_scale(fdf->arr[y + 1][x], fdf);
-				printf("p1: x[%d] y[%d], p2: x[%d] y[%d]\n", p1.x, p1.y, p2.x, p2.y);
+				// printf("p1: x[%d] y[%d], p2: x[%d] y[%d]\n", p1.x, p1.y, p2.x, p2.y);
 				draw_line_bresenham(fdf->img, &p1, &p2);
 			}
 			x++; //Move to the right
@@ -98,29 +96,30 @@ int	draw_map(t_fdf *fdf)
 }
 
 //TODO split into 2 function
+//assign another pointer current to prevent moving begin when we get the color
+//and to track the distance in between the two points
 void slope_less_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *img)
 {
 	int p;
 	//int i;
-	(void)end;
 	t_point current = *begin;
 
 	//i = 0;
 	p = 2 * abs(*dy) - abs(*dx);
-	printf("dy: %d\n", *dy);
+	// printf("dy: %d\n", *dy);
 	if (*dy == 0)
 	{
-		printf("(dx)\n");
-		int end_x = end->x;
+		// printf("(dx)\n");
+		//int end_x = end->x;
 		int step = (*dx > 0) ? 1 : -1;
-		while(current.x != end_x)
+		while(current.x != end->x)
 		{
 			current.color = get_gradient_color(&current, begin, end, dx, dy);
 			my_mlx_pixel_put(img, current.x, begin->y, current.color);
 			current.x += step;
 		}
 		// printf("[2]beginx: %d, beginy: %d\n", end_x, begin->y);
-		my_mlx_pixel_put(img, end_x, end->y, end->color);
+		my_mlx_pixel_put(img, end->x, end->y, end->color);
 		return ;
 	}
 	// printf("begin: x[%d], y[%d]", begin->x, begin->y);
@@ -157,27 +156,26 @@ void	slope_bigger_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img
 {
 	int p;
 	// int i;
-	(void)end;
 	t_point current = *begin;
 
 	// printf("[2]dx2: %d, dy2: %d\n", *dx, *dy);
 	// i = 0;
 	p = 2 * abs(*dx) - abs(*dy);
-	printf("dx: %d\n", *dx);
+	// printf("dx: %d\n", *dx);
 	// printf("[1]beginx: %d, begin.y: %d\n", begin->x, begin->y);
 	if (*dx == 0)
 	{
-		printf("(dx)\n");
-		int end_y = end->y;
+		// printf("(dx)\n");
+		// int end_y = end->y;
 		int step = (*dy > 0) ? 1 : -1;
-		while(current.y != end_y)
+		while(current.y != end->y)
 		{
 			current.color = get_gradient_color(&current, begin, end, dx, dy);
 			my_mlx_pixel_put(img, current.x, current.y, current.color);
 			current.y += step;
 		}
 		// printf("[2]beginx: %d, beginy: %d\n", begin->x, end_y);
-		my_mlx_pixel_put(img, end->x, end_y, end->color);
+		my_mlx_pixel_put(img, end->x, end->y, end->color);
 		return ;
 	}
 	while (current.x != end->x || current.y != end->y)
