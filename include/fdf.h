@@ -48,7 +48,6 @@
 #endif
 
 //error_handling.c
-void	free_2d_array(void **arr);
 void	error_and_exit(char *message);
 void	free_tpoint_arr(t_point **arr, t_map *map);
 void	free_map(t_map *map);
@@ -76,29 +75,34 @@ int		key_press(int key, t_fdf *fdf);
 void	elevation(int key, t_fdf *fdf);
 void	change_colour(int key, t_fdf *fdf);
 void	projection_pressed(int key, t_fdf *fdf);
-void	projection_type(int key, t_fdf *fdf);
+void	projection_type(t_fdf *fdf);
 void	rotate(int key, t_fdf *fdf);
 void	zoom(int key, t_fdf *fdf);
 void	move(int key, t_fdf *fdf);
 void	setup_hook(t_fdf *fdf);
 
 //draw.c
-void	my_mlx_pixel_put(t_img *s_img, int x, int y, int color);
 void	draw_line_bresenham(t_img *s_img, t_point *begin, t_point *end);
-void	slope_bigger_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *s_img);
-void	slope_less_than_one(t_point *begin, t_point *end, int *dx, int *dy, t_img *s_img);
+void	slope_bigger_than_one(t_point *begin, t_point *end, t_draw *draw, t_img *s_img);
+void	slope_less_than_one(t_point *begin, t_point *end, t_draw *draw, t_img *s_img);
 int		draw_map(t_fdf *fdf);
 t_point	ft_scale(t_point point, t_fdf *fdf);
+
+//bresenham.c
+void	draw_line_bresenham(t_img *img, t_point *begin, t_point *end);
+
 
 //color.c
 float	fraction(float x1, float x2, float x);
 int		color_gradient(t_point *begin, t_point *end, float *distance);
-int		get_gradient_color(t_point *current, t_point *begin, t_point *end, int *dx, int *dy);
+int		get_gradient_color(t_point *current, t_point *begin, t_point *end, t_draw *draw);
 
 //utils.c
 void	clear_image(t_fdf *fdf);
 int		get_scale(t_fdf *fdf, t_move *move);
 int		find_z_max(t_fdf *fdf);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void	free_2d_array(void **arr);
 
 //rotate.c
 void	rotate_x(t_point *a, t_move *move);

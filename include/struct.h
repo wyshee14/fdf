@@ -48,6 +48,12 @@ typedef struct s_move {
 	t_projection projection;
 }				t_move;
 
+typedef struct s_draw {
+	int dy;
+	int dx;
+	int p;
+}				t_draw;
+
 typedef struct s_point {
 	int x;
 	int y;

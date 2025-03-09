@@ -26,14 +26,14 @@ int	color_gradient(t_point *begin, t_point *end, float *distance)
 	return ((r << 16) | (g << 8) | b);
 }
 
-int get_gradient_color(t_point *current, t_point *begin, t_point *end, int *dx, int *dy)
+int get_gradient_color(t_point *current, t_point *begin, t_point *end, t_draw *draw)
 {
 	float position;
 	int color;
 
 	if (begin->color == end->color)
 		return(begin->color);
-	if (abs(*dx) > abs(*dy))
+	if (abs(draw->dx) > abs(draw->dy))
 		position = fraction(begin->x, end->x, current->x);
 	else
 		position = fraction(begin->y, end->y, current->y);

@@ -32,7 +32,6 @@ t_img *init_img(t_fdf *fdf)
 	if (!img)
 		error_and_exit("Failed to allocate memory for img");
 	img->img = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
-	//printf("img: %p\n", img->img);
 	if (!img->img)
 		error_and_exit("Failed to allocate new image\n");
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
@@ -78,10 +77,10 @@ void	init_fdf(t_fdf *fdf, char **av)
 	fdf->arr = init_point(av, fdf->map);
 	fdf->move = init_move(fdf);
 	fdf->mlx = mlx_init();
-	fdf->img = init_img(fdf);
 	if (!fdf->mlx)
-		printf("Failed mlx init\n");
+	error_and_exit("Failed mlx init\n");
 	fdf->win = mlx_new_window(fdf->mlx, WIDTH, HEIGHT, "FDF");
 	if (!fdf->win)
-		printf("Failed to create window\n");
+	error_and_exit("Failed to create window\n");
+	fdf->img = init_img(fdf);
 }

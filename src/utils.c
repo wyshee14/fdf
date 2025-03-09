@@ -28,6 +28,7 @@ void	clear_image(t_fdf *fdf)
 		}
 		y++;
 	}
+	//ft_bzero(fdf->img->addr, HEIGHT * WIDTH * (fdf->img->bits_per_pixel / 8)); //clear image
 }
 
 int get_scale(t_fdf *fdf, t_move *move)
@@ -76,4 +77,33 @@ int find_z_max(t_fdf *fdf)
 	}
 	// printf("zmax: %d\n", max);
 	return(max);
+}
+
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+{
+	char *dst;
+
+	if (!img || !img->addr)
+	{
+		perror("Error: Invalid image pointer\n");
+		return ;
+	}
+	if(x < 0 || y < 0|| x >= WIDTH || y >= HEIGHT)
+		return ;
+	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
+void	free_2d_array(void **arr)
+{
+	int i;
+
+	i = 0;
+	while(arr[i] != NULL)
+	{
+		if(arr[i])
+			free(arr[i]);
+		i++;
+	}
+	free(arr);
 }

@@ -32,17 +32,7 @@ int close_window(t_fdf *fdf)
 int key_press(int key, t_fdf *fdf)
 {
 	if(key == ESC_KEY)
-	{
-		// mlx_destroy_window(fdf->mlx, fdf->win);
-		// fdf->win = NULL;
-		if(fdf)
-		{
-			free_all(fdf);
-			fdf = NULL;
-		}
-		exit(0);
-		// close_window(fdf);
-	}
+		close_window(fdf);
 	if (key == XK_Up || key == XK_Down || key == XK_Left || key == XK_Right)
 		move(key, fdf);
 	if (key == XK_equal || key == XK_minus)
@@ -64,13 +54,6 @@ int key_press(int key, t_fdf *fdf)
 // 		fdf->shift_pressed = 0;
 // 	return(0);
 // }
-
-int mouse_scroll(int button, t_fdf *fdf)
-{
-	if (button == Button4 || button == Button5)
-		zoom(button,fdf);
-	return (0);
-}
 
 void	elevation(int key, t_fdf *fdf)
 {
@@ -148,19 +131,17 @@ void projection_pressed(int key, t_fdf *fdf)
 			fdf->move->projection = 2;
 		else if (fdf->move->projection == 2)
 			fdf->move->projection = 0;
-		projection_type(key, fdf);
+		projection_type(fdf);
 	}
 }
 
-void	projection_type(int key, t_fdf *fdf)
+void	projection_type(t_fdf *fdf)
 {
-	(void)key;
 	double rad;
 	double rad2;
 
 	rad = 90 * M_PI / 180;
 	rad2 = 270 * M_PI / 180;
-	// printf("Projection value: %d\n", fdf->move->projection);
 	if (fdf->move->projection == TOP_VIEW)
 	{
 		fdf->move->alpha_x = 0;
@@ -181,13 +162,12 @@ void	projection_type(int key, t_fdf *fdf)
 	}
 }
 
+// key123 rotate in positive direction
+// key789 rotate in opposite direction
 void	rotate(int key, t_fdf *fdf)
 {
 	if (key == XK_1)
-	{
 		fdf->move->gamma_z += 0.1;
-		//printf("gamma: %f\n", fdf->move->gamma_z);
-	}
 	if (key == XK_2)
 		fdf->move->tetha_y += 0.1;
 	if (key == XK_3)
@@ -232,6 +212,5 @@ void	setup_hook(t_fdf *fdf)
 {
 	mlx_loop_hook(fdf->mlx, draw_map,fdf);
 	mlx_hook(fdf->win, 2, 1L<<0, key_press, fdf);
-	mlx_hook(fdf->win, 4, 1L<<2, mouse_scroll, fdf);
 	mlx_hook(fdf->win, 17, 0, close_window, fdf);
 }
