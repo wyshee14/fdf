@@ -6,37 +6,39 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 21:12:26 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/07 21:25:11 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/10 21:51:38 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
-// we create another function called mlx_my_pixel_put instead of using mlx_pixel_put
+// create another function mlx_my_pixel_put instead of using mlx_pixel_put
 // as it puts each pixel to the window which causes very slow
 // hence mlx_put_image_to_window is when the pixel is put into the buffer of image
 // and then push the whole image to the window
 // Function: mlx_get_data_addr (initialized in the function)
 // t_img *img: A pointer to an image structure.
-// int *bits_per_pixel: Pointer to an integer where the function stores the number of bits per pixel.
-// int *size_line: Pointer to an integer where the function stores the number of bytes per row of the image.
-// int *endian: Pointer to an integer where the function stores the endian format of the image (big-endian or little-endian).
-// Bid Endian (endian == 1): most significant byte (MSB) is stored first (lowest memory address)
+// int *bits_per_pixel: Pointer to an integer where the function
+// stores the number of bits per pixel.
+// int *size_line: Pointer to an integer where the function
+// stores the number of bytes per row of the image.
+// int *endian: Pointer to an integer where the function
+// stores the endian format of the image (big-endian or little-endian).
+// Bid Endian (endian == 1): most significant byte (MSB)
+// is stored first (lowest memory address)
 // Little-Endian (endian == 0): least significant byte (LSB) is stored first.
 // Returns: A pointer to the raw pixel data of the image.
-t_img *init_img(t_fdf *fdf)
+t_img	*init_img(t_fdf *fdf)
 {
-	t_img *img;
+	t_img	*img;
 
 	img = (t_img *)malloc(sizeof(t_img));
 	if (!img)
 		error_and_exit("Failed to allocate memory for img");
 	img->img = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
-	// printf("%p\n", img->img);
 	if (!img->img)
 		error_and_exit("Failed to allocate new image\n");
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
-	// printf("bpp: %d, line_length: %d, endian: %d\n", img->bits_per_pixel, img->line_length, img->endian);
 	if (!img->addr)
 		error_and_exit("Failed to get img address\n");
 	return(img);
@@ -61,7 +63,6 @@ t_move *init_move(t_fdf *fdf)
 	move->z_max = find_z_max(fdf);
 	move->scale = get_scale(fdf, move);
 	move->is_iso = 1;
-	move->z_factor = 1;
 	return(move);
 }
 
@@ -81,11 +82,8 @@ void	init_fdf(t_fdf *fdf, char **av)
 	fdf->mlx = mlx_init();
 	if (!fdf->mlx)
 		error_and_exit("Failed mlx init\n");
-	// printf("mlx_new_window: mlx = %p, width = %d, height = %d\n", fdf->mlx, WIDTH, HEIGHT);
 	fdf->win = mlx_new_window(fdf->mlx, WIDTH, HEIGHT, "FDF");
-	// printf("Window created: %p\n", fdf->win);
 	if (!fdf->win)
 		error_and_exit("Failed to create window\n");
 	fdf->img = init_img(fdf);
-	// printf("mlx: %p, win: %p, img: %p, move: %p, map: %p, arr: %p\n", fdf->mlx, fdf->win, fdf->img, fdf->move, fdf->map, fdf->arr);
 }

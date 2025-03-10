@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/10 21:34:05 by wshee             #+#    #+#             */
+/*   Updated: 2025/03/10 21:39:32 by wshee            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/fdf.h"
 
 // to calculate the distance travelled between two points
@@ -6,8 +18,8 @@
 float	fraction(float x1, float x2, float x)
 {
 	if (x1 != x2)
-		return((x - x1) / (x2 - x1));
-	return(0);
+		return ((x - x1) / (x2 - x1));
+	return (0);
 }
 
 // 0xRRGGBB (24 bit color) is a base 16 notation(hexadecimal)
@@ -20,23 +32,26 @@ int	color_gradient(t_point *begin, t_point *end, float *distance)
 	int	g;
 	int	b;
 
-	r = ((begin->color >> 16) & 0xFF) + (*distance) * (((end->color >> 16) & 0xFF) - ((begin->color >> 16) & 0xFF));
-	g = ((begin->color >> 8) & 0xFF) + (*distance) * (((end->color >> 8) & 0xFF) - ((begin->color >> 8) & 0xFF));
-	b = (begin->color & 0xFF) + (*distance) * ((end->color & 0xFF) - (begin->color & 0xFF));
+	r = ((begin->color >> 16) & 0xFF) + (*distance) * ((end->color >> 16 & 0xFF)
+			- ((begin->color >> 16) & 0xFF));
+	g = ((begin->color >> 8) & 0xFF) + (*distance) * ((end->color >> 8 & 0xFF)
+			- ((begin->color >> 8) & 0xFF));
+	b = (begin->color & 0xFF) + (*distance) * ((end->color & 0xFF)
+			- (begin->color & 0xFF));
 	return ((r << 16) | (g << 8) | b);
 }
 
-int get_gradient_color(t_point *current, t_draw *draw)
+int	get_gradient_color(t_point *current, t_draw *draw)
 {
-	float position;
-	int color;
+	float	position;
+	int		color;
 
 	if (draw->begin.color == draw->end.color)
-		return(draw->begin.color);
+		return (draw->begin.color);
 	if (abs(draw->dx) > abs(draw->dy))
 		position = fraction(draw->begin.x, draw->end.x, current->x);
 	else
 		position = fraction(draw->begin.y, draw->end.y, current->y);
 	color = color_gradient(&draw->begin, &draw->end, &position);
-	return(color);
+	return (color);
 }
