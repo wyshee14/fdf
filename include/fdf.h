@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/05 21:40:13 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/10 21:29:28 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 // Define STD ERROR
 #define SPLIT_ERROR "Failed to split"
 
-#define HEIGHT 3000
-#define WIDTH 2000
+#define HEIGHT 2000
+#define WIDTH 3000
 #define SCALE 5
 #define MOVE_STEP 100
 
@@ -78,19 +78,18 @@ void	move(int key, t_fdf *fdf);
 void	setup_hook(t_fdf *fdf);
 
 //draw.c
-void	draw_line_bresenham(t_img *s_img, t_point *begin, t_point *end);
-void	slope_bigger_than_one(t_point *begin, t_point *end, t_draw *draw, t_img *s_img);
-void	slope_less_than_one(t_point *begin, t_point *end, t_draw *draw, t_img *s_img);
+// void	slope_bigger_than_one(t_point *begin, t_point *end, t_draw *draw, t_img *s_img);
+// void	slope_less_than_one(t_point *begin, t_point *end, t_draw *draw, t_img *s_img);
 int		draw_map(t_fdf *fdf);
 t_point	ft_scale(t_point point, t_fdf *fdf);
 
 //bresenham.c
-void	draw_line_bresenham(t_img *img, t_point *begin, t_point *end);
+void	draw_line_bresenham(t_img *img, t_draw *draw);
 
 //color.c
 float	fraction(float x1, float x2, float x);
 int		color_gradient(t_point *begin, t_point *end, float *distance);
-int		get_gradient_color(t_point *current, t_point *begin, t_point *end, t_draw *draw);
+int		get_gradient_color(t_point *current, t_draw *draw);
 
 //utils.c
 void	clear_image(t_fdf *fdf);
