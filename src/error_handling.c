@@ -82,6 +82,7 @@ void free_all(t_fdf *fdf)
 	}
 	if (fdf->mlx)
 	{
+		mlx_do_sync(fdf->mlx);
 		mlx_destroy_display(fdf->mlx);
 		free(fdf->mlx);
 		fdf->mlx = NULL;

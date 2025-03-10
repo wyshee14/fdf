@@ -16,7 +16,7 @@
 // as it puts each pixel to the window which causes very slow
 // hence mlx_put_image_to_window is when the pixel is put into the buffer of image
 // and then push the whole image to the window
-// Function: mlx_get_data_addr
+// Function: mlx_get_data_addr (initialized in the function)
 // t_img *img: A pointer to an image structure.
 // int *bits_per_pixel: Pointer to an integer where the function stores the number of bits per pixel.
 // int *size_line: Pointer to an integer where the function stores the number of bytes per row of the image.
@@ -32,9 +32,11 @@ t_img *init_img(t_fdf *fdf)
 	if (!img)
 		error_and_exit("Failed to allocate memory for img");
 	img->img = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
+	// printf("%p\n", img->img);
 	if (!img->img)
 		error_and_exit("Failed to allocate new image\n");
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+	// printf("bpp: %d, line_length: %d, endian: %d\n", img->bits_per_pixel, img->line_length, img->endian);
 	if (!img->addr)
 		error_and_exit("Failed to get img address\n");
 	return(img);
@@ -78,9 +80,12 @@ void	init_fdf(t_fdf *fdf, char **av)
 	fdf->move = init_move(fdf);
 	fdf->mlx = mlx_init();
 	if (!fdf->mlx)
-	error_and_exit("Failed mlx init\n");
+		error_and_exit("Failed mlx init\n");
+	// printf("mlx_new_window: mlx = %p, width = %d, height = %d\n", fdf->mlx, WIDTH, HEIGHT);
 	fdf->win = mlx_new_window(fdf->mlx, WIDTH, HEIGHT, "FDF");
+	// printf("Window created: %p\n", fdf->win);
 	if (!fdf->win)
-	error_and_exit("Failed to create window\n");
+		error_and_exit("Failed to create window\n");
 	fdf->img = init_img(fdf);
+	// printf("mlx: %p, win: %p, img: %p, move: %p, map: %p, arr: %p\n", fdf->mlx, fdf->win, fdf->img, fdf->move, fdf->map, fdf->arr);
 }

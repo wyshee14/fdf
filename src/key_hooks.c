@@ -183,16 +183,9 @@ void	rotate(int key, t_fdf *fdf)
 void zoom(int key, t_fdf *fdf)
 {
 	if (key == XK_equal)
-	{
-		// printf("Button: %d\n", button);
 		fdf->move->scale += 1;
-	}
 	if (key == XK_minus)
-	{
-		// printf("Button: %d\n", button);
 		fdf->move->scale -= 1;
-	}
-	// draw_map(fdf);
 }
 
 void	move(int key, t_fdf *fdf)

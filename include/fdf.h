@@ -31,17 +31,13 @@
 // Define STD ERROR
 #define SPLIT_ERROR "Failed to split"
 
-#define HEIGHT 2000
-#define WIDTH 3000
+#define HEIGHT 3000
+#define WIDTH 2000
 #define SCALE 5
 #define MOVE_STEP 100
 
 // define key
 #define ESC_KEY 65307
-// #define KEY_UP 126
-// #define KEY_DOWN 125
-// #define KEY_LEFT 123
-// #define KEY_RIGHT 124
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -66,8 +62,8 @@ t_point	**init_point(char **av, t_map *map);
 
 //init_fdf.c
 void	init_fdf(t_fdf *fdf, char **av);
-t_move *init_move(t_fdf *fdf);
-t_img *init_img(t_fdf *fdf);
+t_move  *init_move(t_fdf *fdf);
+t_img   *init_img(t_fdf *fdf);
 
 //key_hooks.c
 int		close_window(t_fdf *fdf);
@@ -90,7 +86,6 @@ t_point	ft_scale(t_point point, t_fdf *fdf);
 
 //bresenham.c
 void	draw_line_bresenham(t_img *img, t_point *begin, t_point *end);
-
 
 //color.c
 float	fraction(float x1, float x2, float x);
