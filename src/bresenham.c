@@ -1,82 +1,98 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bresenham.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/10 14:12:17 by wshee             #+#    #+#             */
+/*   Updated: 2025/03/10 21:32:00 by wshee            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/fdf.h"
 
 //assign another pointer current to prevent moving begin when we get the color
 //and to track the distance in between the two points
-void draw_horizontal_line(t_point *current, t_point *begin, t_point *end, t_draw *draw, t_img *img)
+void	draw_horizontal_line(t_point *current, t_draw *draw, t_img *img)
 {
-	int step;
+	int	step;
 
 	step = 1;
-	if (draw->dx < 0) 
+	if (draw->dx < 0)
 		step = -1;
-	while(current->x != end->x)
+	while (current->x != draw->end.x)
 	{
-		current->color = get_gradient_color(current, begin, end, draw);
-		my_mlx_pixel_put(img, current->x, begin->y, current->color);
+		current->color = get_gradient_color(current, draw);
+		my_mlx_pixel_put(img, current->x, draw->begin.y, current->color);
 		current->x += step;
 	}
-	my_mlx_pixel_put(img, end->x, end->y, end->color);
+	my_mlx_pixel_put(img, draw->end.x, draw->end.y, draw->end.color);
 	return ;
 }
 
-void slope_less_than_one(t_point *begin, t_point *end, t_draw *draw, t_img *img)
+// for shallow line where dx > dy
+// plot the pixel by incrementing x
+void	slope_less_than_one(t_draw *draw, t_img *img)
 {
-	t_point current;
-	
-	current = *begin;
+	t_point	current;
+
+	current = draw->begin;
 	if (draw->dy == 0)
-		draw_horizontal_line(&current, begin, end, draw, img);
-	while (current.x != end->x || current.y != end->y)
+		draw_horizontal_line(&current, draw, img);
+	while (current.x != draw->end.x || current.y != draw->end.y)
 	{
-		current.color = get_gradient_color(&current, begin, end, draw);
+		current.color = get_gradient_color(&current, draw);
 		my_mlx_pixel_put(img, current.x, current.y, current.color);
-		if((draw->dx) > 0)
+		if (draw->dx > 0)
 			current.x += 1;
 		else
 			current.x -= 1;
 		if (draw->p < 0)
 			draw->p = draw->p + 2 * abs(draw->dy);
-	  	else
-	  	{
-			if ((draw->dy) > 0)
+		else
+		{
+			if (draw->dy > 0)
 				current.y += 1;
 			else
 				current.y -= 1;
 			draw->p = draw->p + 2 * abs(draw->dy) - 2 * abs(draw->dx);
 		}
-	 }
-	my_mlx_pixel_put(img, end->x, end->y, end->color);
+	}
+	my_mlx_pixel_put(img, draw->end.x, draw->end.y, draw->end.color);
 }
 
-void	draw_vertical_line(t_point *current, t_point *begin, t_point *end, t_draw *draw, t_img *img)
+void	draw_vertical_line(t_point *current, t_draw *draw, t_img *img)
 {
-		int step;
-		
-		step = 1;
-		if (draw->dy < 0) 
-			step = -1;
-		while(current->y != end->y)
-		{
-			current->color = get_gradient_color(current, begin, end, draw);
-			my_mlx_pixel_put(img, current->x, current->y, current->color);
-			current->y += step;
-		}
-		my_mlx_pixel_put(img, end->x, end->y, end->color);
-		return ;
-}
+	int	step;
 
-void	slope_bigger_than_one(t_point *begin, t_point *end, t_draw *draw, t_img *img)
-{
-	t_point current;
-	
-	current = *begin;
-	if (draw->dx == 0)
-		draw_vertical_line(&current, begin, end, draw, img);
-	while (current.x != end->x || current.y != end->y)
+	step = 1;
+	if (draw->dy < 0)
+		step = -1;
+	while (current->y != draw->end.y)
 	{
-		current.color = get_gradient_color(&current, begin, end, draw);
+		current->color = get_gradient_color(current, draw);
+		my_mlx_pixel_put(img, current->x, current->y, current->color);
+		current->y += step;
+	}
+	my_mlx_pixel_put(img, draw->end.x, draw->end.y, draw->end.color);
+	return ;
+}
+
+// for steep line where dy > dx
+// plot the pixel by incrementing y
+void	slope_bigger_than_one(t_draw *draw, t_img *img)
+{
+	t_point	current;
+
+	current = draw->begin;
+	if (draw->dx == 0)
+		draw_vertical_line(&current, draw, img);
+	while (current.x != draw->end.x || current.y != draw->end.y)
+	{
+		current.color = get_gradient_color(&current, draw);
 		my_mlx_pixel_put(img, current.x, current.y, current.color);
-		if(draw->dy > 0)
+		if (draw->dy > 0)
 			current.y += 1;
 		else if (draw->dy < 0)
 			current.y -= 1;
@@ -91,25 +107,23 @@ void	slope_bigger_than_one(t_point *begin, t_point *end, t_draw *draw, t_img *im
 			draw->p = draw->p + 2 * abs(draw->dx) - 2 * abs(draw->dy);
 		}
 	}
-	my_mlx_pixel_put(img, end->x, end->y, end->color);
+	my_mlx_pixel_put(img, draw->end.x, draw->end.y, draw->end.color);
 }
 
-// abs (returns positive number) using stdlib.h, forbidden -- need to create a new function
-void	draw_line_bresenham(t_img *img, t_point *begin, t_point *end)
+// abs (returns positive number) using stdlib.h, forbidden
+// -- need to create a new function
+void	draw_line_bresenham(t_img *img, t_draw *draw)
 {
-	t_draw draw;
-	
-	ft_memset(&draw, 0, sizeof(t_draw));
-	draw.dx = (end->x - begin->x); 
-	draw.dy = (end->y - begin->y);
-	if (abs(draw.dx) > abs(draw.dy))
+	draw->dx = (draw->end.x - draw->begin.x);
+	draw->dy = (draw->end.y - draw->begin.y);
+	if (abs(draw->dx) > abs(draw->dy))
 	{
-		draw.p = 2 * abs(draw.dy) - abs(draw.dx);
-		slope_less_than_one(begin, end, &draw, img); //shallow lines
+		draw->p = 2 * abs(draw->dy) - abs(draw->dx);
+		slope_less_than_one(draw, img);
 	}
 	else
 	{
-		draw.p = 2 * abs(draw.dx) - abs(draw.dy);
-		slope_bigger_than_one(begin, end, &draw, img); //steep lines
+		draw->p = 2 * abs(draw->dx) - abs(draw->dy);
+		slope_bigger_than_one(draw, img);
 	}
 }

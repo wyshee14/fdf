@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:48:18 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/08 23:18:23 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/10 21:20:43 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,24 @@ t_point	ft_scale(t_point point, t_fdf *fdf)
 // y draw to downwards until the last row
 void	draw_array(t_fdf *fdf, int x, int y)
 {
-	t_point p1;
-	t_point p2;
-	t_point p3;
+	// t_point p1;
+	// t_point p2;
+	// t_point p3;
+	t_draw	draw;
 
-	p1 = ft_scale(fdf->arr[y][x], fdf);
-	if(x != fdf->map->column - 1) 
+	ft_memset(&draw, 0, sizeof(t_draw));
+	draw.begin = ft_scale(fdf->arr[y][x], fdf);
+	if(x != fdf->map->column - 1)
 	{
-		p3 = ft_scale(fdf->arr[y][x + 1], fdf);
+		draw.end = ft_scale(fdf->arr[y][x + 1], fdf);
 		// printf("p1: x[%d] y[%d], p3: x[%d] y[%d]\n", p1.x, p1.y, p3.x, p3.y);
-		draw_line_bresenham(fdf->img, &p1, &p3);
+		draw_line_bresenham(fdf->img, &draw);
 	}
-	if(y != fdf->map->row - 1) 
+	if(y != fdf->map->row - 1)
 	{
-		p2 = ft_scale(fdf->arr[y + 1][x], fdf);
+		draw.end = ft_scale(fdf->arr[y + 1][x], fdf);
 		// printf("p1: x[%d] y[%d], p2: x[%d] y[%d]\n", p1.x, p1.y, p2.x, p2.y);
-		draw_line_bresenham(fdf->img, &p1, &p2);
+		draw_line_bresenham(fdf->img, &draw);
 	}
 }
 
