@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/10 21:29:28 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/11 21:18:22 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 # define FDF_H
 
 # include "../minilibx-linux/mlx.h"
-#include "X11/keysym.h"
-#include "X11/X.h"
-//# include "../minilibx-linux/mlx_int.h"
+# include "X11/keysym.h"
+# include "X11/X.h"
 # include "../libft/libft.h"
 # include "struct.h"
 # include <math.h>
@@ -24,29 +23,26 @@
 # include <fcntl.h>
 
 // Color
-#define DEFAULT_COLOR 0xFFFFFF
-#define COLOR1 0x87CEFA
-#define COLOR2 0x7CFC00
+# define DEFAULT_COLOR 0xFFFFFF
+# define COLOR1 0x87CEFA
+# define COLOR2 0x7CFC00
 
 // Define STD ERROR
-#define SPLIT_ERROR "Failed to split"
+# define SPLIT_ERROR "Failed to split"
 
-#define HEIGHT 2000
-#define WIDTH 3000
-#define SCALE 5
-#define MOVE_STEP 100
+// Define window size
+# define HEIGHT 2000
+# define WIDTH 3000
 
-// define key
-#define ESC_KEY 65307
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
 
 //error_handling.c
 void	error_and_exit(char *message);
 void	free_tpoint_arr(t_point **arr, t_map *map);
 void	free_map(t_map *map);
+void	free_img(t_fdf *fdf);
 void	free_all(t_fdf *fdf);
 
 //parse_map.c
@@ -58,29 +54,31 @@ t_map	*parse_maps(char **av);
 //init_point.c
 void	allocate_map(t_map *map, t_point ***arr);
 int		get_color(char *column_line, t_map *map);
+void	extract_data(char *line, t_point ***arr, t_map *map, int row);
 t_point	**init_point(char **av, t_map *map);
 
 //init_fdf.c
 void	init_fdf(t_fdf *fdf, char **av);
-t_move  *init_move(t_fdf *fdf);
-t_img   *init_img(t_fdf *fdf);
+t_move	*init_move(t_fdf *fdf);
+t_img	*init_img(t_fdf *fdf);
 
 //key_hooks.c
 int		close_window(t_fdf *fdf);
 int		key_press(int key, t_fdf *fdf);
-void	elevation(int key, t_fdf *fdf);
-void	change_colour(int key, t_fdf *fdf);
 void	projection_pressed(int key, t_fdf *fdf);
 void	projection_type(t_fdf *fdf);
-void	rotate(int key, t_fdf *fdf);
-void	zoom(int key, t_fdf *fdf);
-void	move(int key, t_fdf *fdf);
 void	setup_hook(t_fdf *fdf);
 
+// key_hooks2.c
+void	rotate(int key, t_fdf *fdf);
+void	zoom(int key, t_fdf *fdf);
+void	change_colour(t_fdf *fdf);
+void	move(int key, t_fdf *fdf);
+
 //draw.c
-// void	slope_bigger_than_one(t_point *begin, t_point *end, t_draw *draw, t_img *s_img);
-// void	slope_less_than_one(t_point *begin, t_point *end, t_draw *draw, t_img *s_img);
 int		draw_map(t_fdf *fdf);
+void	draw_array_grid(t_fdf *fdf, int x, int y);
+void	isometric_projection(t_point *point);
 t_point	ft_scale(t_point point, t_fdf *fdf);
 
 //bresenham.c

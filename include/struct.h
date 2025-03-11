@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:54:29 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/10 21:42:35 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/11 21:14:10 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ typedef struct s_img {
 }				t_img;
 
 typedef struct s_map {
-	int row;
-	int column;
+	int	row;
+	int	column;
 }				t_map;
 
 typedef enum projection {
@@ -33,36 +33,32 @@ typedef enum projection {
 }			t_projection;
 
 typedef struct s_move {
-	int offset_x;
-	int offset_y;
-	// int step;
-	int scale;
-	// float z_factor;
-	int z_max;
-	int z_elevation;
-	float alpha_x;
-	float tetha_y;
-	float gamma_z;
-	int is_iso;
-	int color_switch;
-	t_projection projection;
+	int				offset_x;
+	int				offset_y;
+	int				scale;
+	int				z_max;
+	float			alpha_x;
+	float			tetha_y;
+	float			gamma_z;
+	int				is_iso;
+	int				color_switch;
+	t_projection	projection;
 }				t_move;
 
 typedef struct s_point {
-	int x;
-	int y;
-	float z;
-	int color;
-	int ori_color;
+	int	x;
+	int	y;
+	int	z;
+	int	color;
+	int	ori_color;
 }				t_point;
 
 typedef struct s_draw {
-	int dy;
-	int dx;
-	int p;
-	t_point begin;
-	t_point end;
-	// t_point current;
+	int		dy;
+	int		dx;
+	int		p;
+	t_point	begin;
+	t_point	end;
 }				t_draw;
 
 typedef struct s_fdf {
@@ -71,7 +67,7 @@ typedef struct s_fdf {
 	t_img	*img;
 	t_move	*move;
 	t_map	*map;
-	t_point **arr;
+	t_point	**arr;
 }				t_fdf;
 
 #endif
