@@ -14,7 +14,6 @@ MLX_DIR = minilibx-linux
 MINILIBX-LINUX = $(MLX_DIR)/libmlx.a
 INC_DIR = include/
 SRC_DIR = src/
-#BONUS_DIR = bonus/
 INC = -I$(INC_DIR)
 
 CC = cc #-fsanitize=address
@@ -23,12 +22,11 @@ CFLAGS = -Wall -Wextra -Werror -g3 -O3 -I$(INC_DIR) -I$(LIBFT_DIR) -Imlx_linux
 #Source Files
 #addprefix <prefix>, <list>
 #<prefix> is the string that added to the beginning of each word
-SRC = $(wildcard $(SRC_DIR)*.c)
-
-#BONUS = $(BONUS_DIR)bonus.c $(BONUS_DIR)utils_bonus.c $(BONUS_DIR)utils2_bonus.c
+SRC_FILES = bresenham.c	color.c			draw.c	error_handling.c	init_fdf.c	init_point.c\
+			key_hooks.c	key_hooks2.c	main.c	parse_map.c			rotate.c	utils.c
+SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 OBJ_SRC = $(SRC:.c=.o)
-#OBJ_BONUS = $(BONUS:.c=.o)
 
 all: $(NAME)
 
@@ -38,11 +36,6 @@ $(NAME) : $(OBJ_SRC)
 	@make -C $(MLX_DIR)
 	$(CC) $(CFLAGS) $(OBJ_SRC) -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz -o $(NAME)
 	@echo "$(GREEN)-----COMPILED DONE-----\n"
-
-#bonus: $(OBJ_BONUS)
-#	@make -C libft
-#	$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIBFT) -o $(NAME)
-#	@echo "$(GREEN)-----COMPILED DONE-----\n"
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -59,4 +52,12 @@ fclean : clean
 
 re: fclean all
 
-.PHONY: all clean fclean re #bonus
+norm:
+	@echo "----- check include -----"
+	@norminette include/
+	@echo "\n----- check libft -----"
+	@norminette libft/
+	@echo "\n----- check src -----"
+	@norminette src/
+
+.PHONY: all clean fclean re norm

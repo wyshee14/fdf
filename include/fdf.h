@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/11 21:18:22 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/11 21:27:50 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define DEFAULT_COLOR 0xFFFFFF
 # define COLOR1 0x87CEFA
 # define COLOR2 0x7CFC00
+# define MOVE_STEP 10
 
 // Define STD ERROR
 # define SPLIT_ERROR "Failed to split"
@@ -74,6 +75,7 @@ void	rotate(int key, t_fdf *fdf);
 void	zoom(int key, t_fdf *fdf);
 void	change_colour(t_fdf *fdf);
 void	move(int key, t_fdf *fdf);
+void	elevation(int key, t_fdf *fdf);
 
 //draw.c
 int		draw_map(t_fdf *fdf);

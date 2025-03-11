@@ -6,34 +6,31 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:51:17 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/07 20:27:13 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/11 15:45:15 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
 // check whether the av[1] extension is .fdf
-int check_file_extension(char *filename)
+int	check_file_extension(char *filename)
 {
 	const char	*extension = ".fdf";
-	int	ext_len;
-	int filename_len;
+	int			ext_len;
+	int			filename_len;
 
 	ext_len = ft_strlen(extension);
 	filename_len = ft_strlen(filename);
 	if (filename_len == 0 || filename_len <= ext_len)
-		return(1);
+		return (1);
 	while (ext_len > 0)
 	{
 		if (filename[filename_len - 1] != extension[ext_len - 1])
-		{
-			printf("extlen: %d\n", ext_len);
-			return(1);
-		}
+			return (1);
 		ext_len--;
 		filename_len--;
 	}
-	return(0);
+	return (0);
 }
 
 // find the number of column using ft_split
@@ -99,7 +96,7 @@ void	set_map_row_and_column(char **av, t_map *map)
 // get the number of rows and column from the map
 t_map	*parse_maps(char **av)
 {
-	t_map *map;
+	t_map	*map;
 
 	map = ft_calloc(1, sizeof(t_move));
 	if (!map)
@@ -113,5 +110,5 @@ t_map	*parse_maps(char **av)
 		error_and_exit("Incorrect file extension");
 	}
 	set_map_row_and_column(av, map);
-	return(map);
+	return (map);
 }

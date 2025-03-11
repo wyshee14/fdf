@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:54:29 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/11 21:14:10 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/11 22:22:13 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_move {
 	int				offset_y;
 	int				scale;
 	int				z_max;
+	float			z_factor;
 	float			alpha_x;
 	float			tetha_y;
 	float			gamma_z;
@@ -46,11 +47,11 @@ typedef struct s_move {
 }				t_move;
 
 typedef struct s_point {
-	int	x;
-	int	y;
-	int	z;
-	int	color;
-	int	ori_color;
+	int		x;
+	int		y;
+	float	z;
+	int		color;
+	int		ori_color;
 }				t_point;
 
 typedef struct s_draw {

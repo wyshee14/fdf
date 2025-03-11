@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 21:12:26 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/10 21:51:38 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/11 23:02:59 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // create another function mlx_my_pixel_put instead of using mlx_pixel_put
 // as it puts each pixel to the window which causes very slow
-// hence mlx_put_image_to_window is when the pixel is put into the buffer of image
+// hence mlx_put_image_to_window is to put the pixel into the buffer of image
 // and then push the whole image to the window
 // Function: mlx_get_data_addr (initialized in the function)
 // t_img *img: A pointer to an image structure.
@@ -38,10 +38,11 @@ t_img	*init_img(t_fdf *fdf)
 	img->img = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
 	if (!img->img)
 		error_and_exit("Failed to allocate new image\n");
-	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
+			&img->line_length, &img->endian);
 	if (!img->addr)
 		error_and_exit("Failed to get img address\n");
-	return(img);
+	return (img);
 }
 
 // this struct is to move the image on window (for bonus)
@@ -49,9 +50,9 @@ t_img	*init_img(t_fdf *fdf)
 // scale project to the point that we want to draw the line
 // offset_x and y move the image to the center or when doing translation
 // is_iso is a flag to change from isometric view to parallel view
-t_move *init_move(t_fdf *fdf)
+t_move	*init_move(t_fdf *fdf)
 {
-	t_move *move;
+	t_move	*move;
 
 	move = ft_calloc(1, sizeof(t_move));
 	if (!move)
@@ -61,13 +62,18 @@ t_move *init_move(t_fdf *fdf)
 		error_and_exit("Failed to allocate memory for move");
 	}
 	move->z_max = find_z_max(fdf);
+	move->z_factor = 1.0;
 	move->scale = get_scale(fdf, move);
+	if (move->scale == 0)
+		move->scale = 2;
+	printf("scale: %d\n", move->scale);
 	move->is_iso = 1;
-	return(move);
+	return (move);
 }
 
 // mlx_init establish connection to the correct graphical system
-// return a pointer to the MLX connection(aka MLX instance) if successful, or NULL if fails
+// return a pointer to the MLX connection(aka MLX instance) if successful,
+// or NULL if fails
 // mlx_new_window initialize the window
 // return a pointer of the window
 // mlx_loop initiate the window rendering

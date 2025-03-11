@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:29:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/04 14:39:07 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/11 15:45:49 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	rotate_x(t_point *a, t_move *move)
 {
-	int prev_y;
+	int	prev_y;
 
 	prev_y = a->y;
 	a->y = prev_y * cos(move->gamma_z) - a->z * sin(move->gamma_z);
@@ -23,7 +23,7 @@ void	rotate_x(t_point *a, t_move *move)
 
 void	rotate_y(t_point *a, t_move *move)
 {
-	int prev_x;
+	int	prev_x;
 
 	prev_x = a->x;
 	a->x = prev_x * cos(move->tetha_y) + a->z * sin(move->tetha_y);
@@ -32,7 +32,7 @@ void	rotate_y(t_point *a, t_move *move)
 
 void	rotate_z(t_point *a, t_move *move)
 {
-	int prev_x;
+	int	prev_x;
 
 	prev_x = a->x;
 	a->x = prev_x * cos(move->alpha_x) - a->y * sin(move->alpha_x);

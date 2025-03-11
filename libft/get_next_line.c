@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 13:28:33 by wshee             #+#    #+#             */
-/*   Updated: 2025/02/10 20:33:54 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/11 21:46:22 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,11 @@ char	*get_next_line(int fd)
 }
 
 // function read will return -1 when (fd == -1):
-// 1. non existing file 
+// 1. non existing file
 // 2. file permission denied
 // 3. system call interruption (when sigint ctrl + c)
-// since fd < 0 had been handled from the start, hence, read(fd, 0, 0) < 0 is unnecessary 
+// since fd < 0 had been handled from the start,
+// hence, read(fd, 0, 0) < 0 is unnecessary
 // because read(fd, 0, 0) will returns 0 when fd is not -1
 // buffer[nbytes] must be terminated else will have garbage value
 // buffer is a section of memory that temperarily stores data
