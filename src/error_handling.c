@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:28:21 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/10 21:46:30 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/12 13:40:59 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ void	free_img(t_fdf *fdf)
 
 // Free array first (since it depends on map->row)
 // Set to NULL to avoid double free
+// mlx_do_sync ensures that all pending drawing operations are processed
+// before we destroy the MLX instance.
+// It forces the MiniLibX display buffer to sync with what has been rendered.
+// mlx_destroy_display cleans display resources allocated by MiniLibX
+// but does not free the MLX instance
+// at last need to free fdf->mlx manual
 void	free_all(t_fdf *fdf)
 {
 	if (!fdf)

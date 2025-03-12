@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:48:18 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/11 22:41:42 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/12 13:17:36 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ t_point	ft_scale(t_point point, t_fdf *fdf)
 	point.x *= fdf->move->scale;
 	point.y *= fdf->move->scale;
 	point.z *= fdf->move->scale * fdf->move->z_factor;
-	// printf("z[%f]\n", point.z);
 	point.x -= (fdf->map->column * fdf->move->scale) / 2;
 	point.y -= (fdf->map->row * fdf->move->scale) / 2;
 	if (fdf->move->is_iso == 1)

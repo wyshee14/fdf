@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:56:22 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/11 23:04:03 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/12 13:16:53 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,36 +40,31 @@ void	clear_image(t_fdf *fdf)
 	}
 }
 
-//TODO error handling if value is 0
 int	get_scale(t_fdf *fdf, t_move *move)
 {
 	int	min;
-	int	x = 0;
-	int	y = 0;
-	int	z = 0;
+	int	x;
+	int	y;
+	int	z;
 
-	// if (!fdf->map->column || !fdf->map->row || !move->z_max)
-	// 	return (0);
-	// fdf->map->column = 0;
-	// fdf->map->row = 0;
-	// move->z_max = 0;
+	x = 0;
+	y = 0;
+	z = 0;
 	if (fdf->map->column > 0)
-		x = WIDTH / fdf->map->column / 5;
+		x = WIDTH / fdf->map->column / 3;
 	if (fdf->map->row > 0)
-		y = HEIGHT / fdf->map->row / 5;
+		y = HEIGHT / fdf->map->row / 3;
 	if (move->z_max > 0)
-		z = HEIGHT / move->z_max / 5;
+		z = HEIGHT / move->z_max / 3;
 	else
 		z = x;
-	printf("x: %d, y: %d, z %d\n", x, y, z);
 	min = x;
-	if (min > y)
+	if (y < min)
 		min = y;
-	if (min > z)
+	if (z < min)
 		min = z;
-	if (min == 0)
+	if (min < 2)
 		min = 2;
-	printf("min: %d\n", min);
 	return (min);
 }
 

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 21:12:26 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/11 23:02:59 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/12 13:17:31 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ t_move	*init_move(t_fdf *fdf)
 	move->scale = get_scale(fdf, move);
 	if (move->scale == 0)
 		move->scale = 2;
-	printf("scale: %d\n", move->scale);
 	move->is_iso = 1;
 	return (move);
 }
