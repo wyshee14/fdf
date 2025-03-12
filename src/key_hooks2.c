@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:38:47 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/11 21:47:44 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/12 20:47:23 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	zoom(int key, t_fdf *fdf)
 {
 	if (key == XK_equal)
 		fdf->move->scale += 1;
-	if (key == XK_minus)
+	if (key == XK_minus && fdf->move->scale > 1)
 		fdf->move->scale -= 1;
 }
 

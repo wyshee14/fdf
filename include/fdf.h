@@ -6,14 +6,14 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/12 20:39:23 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/12 20:43:26 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-// # include "../minilibx-linux/mlx.h"
+# include "../minilibx-linux/mlx.h"
 # include "X11/keysym.h"
 # include "X11/X.h"
 # include "../libft/libft.h"
@@ -26,7 +26,7 @@
 # define DEFAULT_COLOR 0xFFFFFF
 # define COLOR1 0x87CEFA
 # define COLOR2 0x7CFC00
-# define MOVE_STEP 10
+# define MOVE_STEP 20
 
 // Define STD ERROR
 # define SPLIT_ERROR "Failed to split"
