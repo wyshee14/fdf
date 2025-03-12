@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:54:29 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/11 22:22:13 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/12 20:11:54 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_img {
 typedef struct s_map {
 	int	row;
 	int	column;
+	int	inconsistent_col;
 }				t_map;
 
 typedef enum projection {

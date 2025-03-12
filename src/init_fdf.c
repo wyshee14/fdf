@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 21:12:26 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/12 13:17:31 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/12 17:08:45 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ t_move	*init_move(t_fdf *fdf)
 	move->z_max = find_z_max(fdf);
 	move->z_factor = 1.0;
 	move->scale = get_scale(fdf, move);
-	if (move->scale == 0)
-		move->scale = 2;
 	move->is_iso = 1;
 	return (move);
 }

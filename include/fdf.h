@@ -6,14 +6,14 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:41:48 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/11 21:27:50 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/12 20:39:23 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "../minilibx-linux/mlx.h"
+// # include "../minilibx-linux/mlx.h"
 # include "X11/keysym.h"
 # include "X11/X.h"
 # include "../libft/libft.h"
@@ -47,9 +47,6 @@ void	free_img(t_fdf *fdf);
 void	free_all(t_fdf *fdf);
 
 //parse_map.c
-int		check_file_extension(char *filename);
-void	find_column(char *line, int *fd, t_map *map);
-void	set_map_row_and_column(char **av, t_map *map);
 t_map	*parse_maps(char **av);
 
 //init_point.c
