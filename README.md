@@ -7,11 +7,11 @@ This project is to render a 3D wireframe from a 2D digits array using MiniLibX l
 
 MiniLibX is a basic graphic library which contains function to render 2D image to display on window.\
 Features:\
-Allows drawing pixels, lines, and images.\
-Supports keyboard and mouse events.\
-Can handle textures and basic image manipulations.\
-It abstracts X11 (Linux) making it easier to render graphics.\
-X11 (X Window System) is a low-level graphics protocol (GUI) used in UNIX-based operating systems like Linux and BSD.\
+- Allows drawing pixels, lines, and images.\
+- Supports keyboard and mouse events.\
+- Can handle textures and basic image manipulations.\
+- It abstracts X11 (Linux) making it easier to render graphics.\
+- X11 (X Window System) is a low-level graphics protocol (GUI) used in UNIX-based operating systems like Linux and BSD.\
 
 ### Step by step guide
 
@@ -33,4 +33,14 @@ color : convert from hex to integer (0xRRGGBB);\
 -understanding mlx loop, which keeps the window open and keeps the program running and listening to events\
 
 #### 3. Determine the drawing algorithm
--
+##### Digital Differential Analyzer(DDA) Algorithm
+- uses floating point
+- more complex
+- multiplication and division
+
+##### Bresenham's Algorithm (for this project)
+- uses integer
+- more optimise/efficient
+- addition and substration
+
+- draw lines for the grid for the rows and columns using pixels_put function
