@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:12:17 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/11 21:48:46 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/13 14:57:21 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static void	slope_less_than_one(t_draw *draw, t_img *img);
 static void	draw_vertical_line(t_point *current, t_draw *draw, t_img *img);
 static void	slope_bigger_than_one(t_draw *draw, t_img *img);
 
-// abs (returns positive number) using stdlib.h, forbidden
-// -- need to create a new function
 void	draw_line_bresenham(t_img *img, t_draw *draw)
 {
 	draw->dx = (draw->end.x - draw->begin.x);
