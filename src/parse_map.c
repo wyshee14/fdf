@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:51:17 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/12 20:38:35 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/16 20:52:35 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,12 @@ static void	set_map_row_and_column(int fd, t_map *map)
 
 	rows = 0;
 	line = get_next_line(fd);
+	if (!line)
+	{
+		close(fd);
+		free_map(map);
+		error_and_exit("Error: Read nothing");
+	}
 	while (line != NULL)
 	{
 		rows++;
@@ -108,7 +114,6 @@ static void	set_map_row_and_column(int fd, t_map *map)
 		free(line);
 		line = get_next_line(fd);
 	}
-	free(line);
 	close(fd);
 	map->row = rows;
 	if (map->inconsistent_col == 1)

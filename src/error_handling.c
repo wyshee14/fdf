@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:28:21 by wshee             #+#    #+#             */
-/*   Updated: 2025/03/12 13:40:59 by wshee            ###   ########.fr       */
+/*   Updated: 2025/03/16 20:54:09 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error_and_exit(char *message)
 {
-	perror(message);
+	ft_putstr_fd(message, 2);
 	exit(1);
 }
 
