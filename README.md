@@ -2,7 +2,7 @@
 ## Introduction
 
 This project is to render a 3D wireframe from a 2D digits array using MiniLibX library\
-![screenshot](https://cdn.discordapp.com/attachments/1312813018995753000/1346508564084293732/image.png?ex=67d4f792&is=67d3a612&hm=9af0ec9786efb7042aafe510659603b3175628293ea9593f11614b5ce2d451cc&)
+![Image](https://github.com/user-attachments/assets/fe64d154-e831-4925-b7b7-545e8c4e34d1)
 
 ### What is MiniLibX?
 
